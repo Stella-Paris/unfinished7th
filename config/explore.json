@@ -1,0 +1,821 @@
+{
+ "_doc": "黄昏勘察表。每次前往消耗1AP。clues=感叹号关键线索事件(按顺序取第一个满足条件且未触发的)；条件: days=[起,止], route=限定化身角色(hero=第七周目), insight=最低观测深度, need=需要的全局标记/信物, once=本周目只触发一次(默认true)。insight 值为首次触发的全局一次性奖励。ambient=无线索时随机的日常小事件。 train=特训(stats=属性权重, san_factor=SAN消耗系数, 负数=回复)；areas=分区(跨周目每次探索开启下一区, 全开后随机, level 越深收益越高)；anomaly=该地点异常事件剧本ID列表；encounter 表见 encounters。",
+ "locations": {
+  "library": {
+   "name": "图书馆",
+   "bg": "library",
+   "icon": "📚",
+   "train": {
+    "stats": {
+     "INT": 1.0
+    },
+    "san_factor": 1.0
+   },
+   "areas": [
+    {
+     "name": "一楼 · 阅览大厅",
+     "bg": "library",
+     "level": 0
+    },
+    {
+     "name": "二楼 · 古籍书库",
+     "bg": "library_2",
+     "level": 1
+    },
+    {
+     "name": "三楼 · 天文阁楼",
+     "bg": "library_3",
+     "level": 2
+    }
+   ],
+   "anomaly": [
+    "anom_library_1",
+    "anom_library_2"
+   ]
+  },
+  "basement": {
+   "name": "旧校舍地下",
+   "bg": "basement",
+   "icon": "🕳",
+   "train": {
+    "stats": {
+     "POW": 1.1,
+     "CON": 0.3
+    },
+    "san_factor": 1.4
+   },
+   "areas": [
+    {
+     "name": "B1 · 地下走廊",
+     "bg": "basement",
+     "level": 0
+    },
+    {
+     "name": "B2 · 废弃储藏库",
+     "bg": "basement_2",
+     "level": 1
+    },
+    {
+     "name": "B3 · 封锁区前厅",
+     "bg": "basement_3",
+     "level": 2
+    }
+   ],
+   "anomaly": [
+    "anom_basement_1",
+    "anom_basement_2"
+   ]
+  },
+  "rooftop": {
+   "name": "天台",
+   "bg": "rooftop_dusk",
+   "icon": "🌇",
+   "train": {
+    "stats": {
+     "POW": 0.6,
+     "INT": 0.5
+    },
+    "san_factor": 0.8
+   },
+   "areas": [
+    {
+     "name": "天台",
+     "bg": "rooftop_dusk",
+     "level": 0
+    },
+    {
+     "name": "水塔平台",
+     "bg": "rooftop_2",
+     "level": 1
+    },
+    {
+     "name": "广播室门前",
+     "bg": "rooftop_3",
+     "level": 2
+    }
+   ],
+   "anomaly": [
+    "anom_rooftop_1",
+    "anom_rooftop_2"
+   ]
+  },
+  "greenhouse": {
+   "name": "生态温室",
+   "bg": "greenhouse",
+   "icon": "🌻",
+   "train": {
+    "stats": {
+     "CON": 0.6
+    },
+    "san_factor": -0.6
+   },
+   "areas": [
+    {
+     "name": "中庭",
+     "bg": "greenhouse",
+     "level": 0,
+     "bg_late": "greenhouse_withered",
+     "late_from": 5
+    },
+    {
+     "name": "热带区",
+     "bg": "greenhouse_2",
+     "level": 1,
+     "bg_late": "greenhouse_2_late",
+     "late_from": 5
+    },
+    {
+     "name": "育苗室",
+     "bg": "greenhouse_3",
+     "level": 2,
+     "bg_late": "greenhouse_3_late",
+     "late_from": 5
+    }
+   ],
+   "anomaly": [
+    "anom_greenhouse_1",
+    "anom_greenhouse_2"
+   ]
+  },
+  "substation": {
+   "name": "变电站",
+   "bg": "substation",
+   "icon": "⚡",
+   "train": {
+    "stats": {
+     "POW": 1.0
+    },
+    "san_factor": 1.0
+   },
+   "areas": [
+    {
+     "name": "外场",
+     "bg": "substation",
+     "level": 0
+    },
+    {
+     "name": "控制室",
+     "bg": "substation_2",
+     "level": 1
+    },
+    {
+     "name": "电缆隧道",
+     "bg": "substation_3",
+     "level": 2
+    }
+   ],
+   "anomaly": [
+    "anom_substation_1",
+    "anom_substation_2"
+   ]
+  },
+  "broadcast": {
+   "name": "广播室",
+   "bg": "broadcast_room",
+   "icon": "📻",
+   "train": {
+    "stats": {
+     "INT": 0.8,
+     "POW": 0.3
+    },
+    "san_factor": 1.0
+   },
+   "areas": [
+    {
+     "name": "播音室",
+     "bg": "broadcast_room",
+     "level": 0
+    },
+    {
+     "name": "资料室",
+     "bg": "broadcast_2",
+     "level": 1
+    },
+    {
+     "name": "录音间",
+     "bg": "broadcast_3",
+     "level": 2
+    }
+   ],
+   "anomaly": [
+    "anom_broadcast_1",
+    "anom_broadcast_2"
+   ]
+  },
+  "infirmary": {
+   "name": "医务室",
+   "bg": "infirmary",
+   "icon": "✚",
+   "train": {
+    "stats": {
+     "CON": 0.4
+    },
+    "san_factor": -1.0
+   },
+   "areas": [
+    {
+     "name": "诊疗室",
+     "bg": "infirmary",
+     "level": 0
+    },
+    {
+     "name": "病房",
+     "bg": "infirmary_2",
+     "level": 1
+    },
+    {
+     "name": "药品库",
+     "bg": "infirmary_3",
+     "level": 2
+    }
+   ],
+   "anomaly": [
+    "anom_infirmary_1",
+    "anom_infirmary_2"
+   ]
+  },
+  "gate": {
+   "name": "校门",
+   "bg": "gate_day",
+   "icon": "⛩",
+   "train": {
+    "stats": {
+     "CON": 0.6,
+     "POW": 0.5
+    },
+    "san_factor": 1.2
+   },
+   "areas": [
+    {
+     "name": "正门",
+     "bg": "gate_day",
+     "level": 0,
+     "bg_late": "gate_fog",
+     "late_from": 2
+    },
+    {
+     "name": "门卫室",
+     "bg": "gate_2",
+     "level": 1
+    },
+    {
+     "name": "围墙小径",
+     "bg": "gate_3",
+     "level": 2
+    }
+   ],
+   "anomaly": [
+    "anom_gate_1",
+    "anom_gate_2"
+   ]
+  },
+  "field": {
+   "name": "操场钟楼",
+   "bg": "schoolyard",
+   "icon": "🕰",
+   "train": {
+    "stats": {
+     "CON": 1.0
+    },
+    "san_factor": 1.0
+   },
+   "areas": [
+    {
+     "name": "操场",
+     "bg": "schoolyard",
+     "level": 0
+    },
+    {
+     "name": "看台",
+     "bg": "field_2",
+     "level": 1
+    },
+    {
+     "name": "钟楼内部",
+     "bg": "field_3",
+     "level": 2
+    }
+   ],
+   "anomaly": [
+    "anom_field_1",
+    "anom_field_2"
+   ]
+  },
+  "dorm": {
+   "name": "回宿舍休息",
+   "bg": "classroom_dusk",
+   "icon": "🛏",
+   "rest": true
+  }
+ },
+ "clues": [
+  {
+   "id": "c_clock",
+   "loc": "field",
+   "days": [
+    1,
+    2
+   ],
+   "insight": 1,
+   "fx": {
+    "SAN": -2
+   }
+  },
+  {
+   "id": "c_sign",
+   "loc": "rooftop",
+   "days": [
+    1,
+    2
+   ],
+   "insight": 1
+  },
+  {
+   "id": "c_photo",
+   "loc": "library",
+   "days": [
+    1,
+    3
+   ],
+   "insight": 2
+  },
+  {
+   "id": "c_sublog",
+   "loc": "substation",
+   "days": [
+    1,
+    3
+   ],
+   "insight": 1
+  },
+  {
+   "id": "c_desk",
+   "loc": "broadcast",
+   "days": [
+    1,
+    3
+   ],
+   "insight": 2
+  },
+  {
+   "id": "c_sunflower",
+   "loc": "greenhouse",
+   "days": [
+    1,
+    3
+   ],
+   "insight": 1
+  },
+  {
+   "id": "c_eden",
+   "loc": "basement",
+   "days": [
+    1,
+    2
+   ],
+   "insight": 2,
+   "fx": {
+    "SAN": -5
+   }
+  },
+  {
+   "id": "c_records",
+   "loc": "infirmary",
+   "days": [
+    2,
+    4
+   ],
+   "insight": 1
+  },
+  {
+   "id": "c_fog",
+   "loc": "gate",
+   "days": [
+    2,
+    3
+   ],
+   "insight": 2,
+   "fx": {
+    "SAN": -5
+   }
+  },
+  {
+   "id": "c_sob",
+   "loc": "rooftop",
+   "days": [
+    2,
+    5
+   ],
+   "insight": 1,
+   "fx": {
+    "SAN": -5
+   }
+  },
+  {
+   "id": "c_tape",
+   "loc": "broadcast",
+   "days": [
+    2,
+    5
+   ],
+   "insight": 2,
+   "fx": {
+    "SAN": -5
+   }
+  },
+  {
+   "id": "c_harmonic",
+   "loc": "basement",
+   "days": [
+    3,
+    5
+   ],
+   "insight": 2,
+   "fx": {
+    "SAN": -6
+   }
+  },
+  {
+   "id": "c_current",
+   "loc": "substation",
+   "days": [
+    3,
+    5
+   ],
+   "insight": 2
+  },
+  {
+   "id": "c_archive",
+   "loc": "library",
+   "days": [
+    3,
+    6
+   ],
+   "insight": 2,
+   "min_insight": 10
+  },
+  {
+   "id": "c_lab",
+   "loc": "basement",
+   "days": [
+    4,
+    6
+   ],
+   "insight": 3,
+   "min_insight": 30,
+   "fx": {
+    "SAN": -10
+   }
+  },
+  {
+   "id": "c_outside",
+   "loc": "gate",
+   "days": [
+    4,
+    6
+   ],
+   "insight": 2,
+   "min_insight": 40,
+   "fx": {
+    "SAN": -4
+   }
+  },
+  {
+   "id": "c_plastic",
+   "loc": "greenhouse",
+   "days": [
+    5,
+    6
+   ],
+   "insight": 2,
+   "fx": {
+    "SAN": -5
+   }
+  },
+  {
+   "id": "c_minase",
+   "loc": "infirmary",
+   "days": [
+    5,
+    6
+   ],
+   "insight": 1,
+   "fx": {
+    "SAN": -4
+   }
+  },
+  {
+   "id": "c_shiori",
+   "loc": "rooftop",
+   "days": [
+    5,
+    6
+   ],
+   "insight": 2,
+   "min_insight": 50
+  },
+  {
+   "id": "c_lendcard",
+   "loc": "library",
+   "days": [
+    4,
+    6
+   ],
+   "insight": 1,
+   "min_insight": 40
+  },
+  {
+   "id": "c_sunset",
+   "loc": "field",
+   "days": [
+    6,
+    6
+   ],
+   "insight": 2,
+   "fx": {
+    "SAN": -5
+   }
+  },
+  {
+   "id": "c_void",
+   "loc": "field",
+   "days": [
+    6,
+    6
+   ],
+   "insight": 2,
+   "min_insight": 20,
+   "fx": {
+    "SAN": -8
+   }
+  },
+  {
+   "id": "c_musicbox",
+   "loc": "basement",
+   "days": [
+    6,
+    6
+   ],
+   "insight": 2,
+   "min_insight": 70,
+   "need": [
+    "relic_saki"
+   ],
+   "key": "key_musicbox"
+  },
+  {
+   "id": "c_extra",
+   "loc": "broadcast",
+   "days": [
+    6,
+    6
+   ],
+   "insight": 2,
+   "min_insight": 70,
+   "need_any": [
+    "relic_rin",
+    "relic_yune"
+   ],
+   "key": "key_extra"
+  },
+  {
+   "id": "r_rina_gate",
+   "loc": "gate",
+   "days": [
+    1,
+    1
+   ],
+   "route": "rina",
+   "insight": 1
+  },
+  {
+   "id": "r_tsukasa_pipe",
+   "loc": "basement",
+   "days": [
+    2,
+    4
+   ],
+   "route": "tsukasa",
+   "insight": 1,
+   "fx": {
+    "SAN": -3
+   }
+  },
+  {
+   "id": "r_rin_wave",
+   "loc": "substation",
+   "days": [
+    1,
+    3
+   ],
+   "route": "rin",
+   "insight": 1
+  },
+  {
+   "id": "r_saki_seed",
+   "loc": "greenhouse",
+   "days": [
+    1,
+    4
+   ],
+   "route": "saki",
+   "insight": 1
+  },
+  {
+   "id": "r_yune_book",
+   "loc": "library",
+   "days": [
+    1,
+    3
+   ],
+   "route": "yune",
+   "insight": 1
+  },
+  {
+   "id": "r_chiyo_pills",
+   "loc": "infirmary",
+   "days": [
+    1,
+    3
+   ],
+   "route": "chiyo",
+   "insight": 1
+  },
+  {
+   "id": "h_ribbon",
+   "loc": "rooftop",
+   "days": [
+    1,
+    6
+   ],
+   "route": "hero",
+   "insight": 2
+  },
+  {
+   "id": "h_roster",
+   "loc": "library",
+   "days": [
+    1,
+    6
+   ],
+   "route": "hero",
+   "insight": 2
+  },
+  {
+   "id": "h_shiori_talk",
+   "loc": "broadcast",
+   "days": [
+    2,
+    6
+   ],
+   "route": "hero",
+   "insight": 2
+  }
+ ],
+ "ambient": {
+  "library": [
+   {
+    "id": "a_lib1",
+    "fx": {}
+   },
+   {
+    "id": "a_lib2",
+    "fx": {}
+   },
+   {
+    "id": "a_lib3",
+    "fx": {}
+   }
+  ],
+  "basement": [
+   {
+    "id": "a_bas1",
+    "fx": {}
+   },
+   {
+    "id": "a_bas2",
+    "fx": {}
+   }
+  ],
+  "rooftop": [
+   {
+    "id": "a_roof1",
+    "fx": {}
+   },
+   {
+    "id": "a_roof2",
+    "fx": {}
+   }
+  ],
+  "greenhouse": [
+   {
+    "id": "a_gh1",
+    "fx": {}
+   },
+   {
+    "id": "a_gh2",
+    "fx": {}
+   }
+  ],
+  "substation": [
+   {
+    "id": "a_sub1",
+    "fx": {}
+   },
+   {
+    "id": "a_sub2",
+    "fx": {}
+   }
+  ],
+  "broadcast": [
+   {
+    "id": "a_br1",
+    "fx": {}
+   },
+   {
+    "id": "a_br2",
+    "fx": {}
+   }
+  ],
+  "infirmary": [
+   {
+    "id": "a_inf1",
+    "fx": {}
+   },
+   {
+    "id": "a_inf2",
+    "fx": {}
+   }
+  ],
+  "gate": [
+   {
+    "id": "a_gate1",
+    "fx": {}
+   },
+   {
+    "id": "a_gate2",
+    "fx": {}
+   }
+  ],
+  "field": [
+   {
+    "id": "a_field1",
+    "fx": {}
+   },
+   {
+    "id": "a_field2",
+    "fx": {}
+   }
+  ],
+  "dorm": [
+   {
+    "id": "a_dorm1",
+    "fx": {}
+   }
+  ]
+ },
+ "encounters": {
+  "_doc": "每次探索时，对每位存活且非当前化身的少女按此概率判定是否在该地点(随机顺序, 取第一个)。偶遇时本次特训 SAN 消耗 × encounter_mult。",
+  "rina": {
+   "rooftop": 0.3,
+   "gate": 0.3,
+   "field": 0.15,
+   "greenhouse": 0.1,
+   "library": 0.05,
+   "infirmary": 0.05
+  },
+  "tsukasa": {
+   "field": 0.4,
+   "basement": 0.15,
+   "gate": 0.15,
+   "rooftop": 0.1,
+   "infirmary": 0.1
+  },
+  "rin": {
+   "substation": 0.3,
+   "broadcast": 0.15,
+   "library": 0.15,
+   "rooftop": 0.1,
+   "field": 0.05
+  },
+  "saki": {
+   "greenhouse": 0.4,
+   "infirmary": 0.15,
+   "basement": 0.1,
+   "field": 0.1,
+   "library": 0.05
+  },
+  "yune": {
+   "library": 0.4,
+   "rooftop": 0.2,
+   "greenhouse": 0.15,
+   "broadcast": 0.05
+  },
+  "chiyo": {
+   "library": 0.25,
+   "infirmary": 0.3,
+   "broadcast": 0.15,
+   "substation": 0.1
+  }
+ }
+}

@@ -1,0 +1,23 @@
+{
+  "_doc": "语音音色表（Kokoro-82M-v1.1-zh 音色ID，括号内为实测平均基频）。修改后运行 tools/tts/gen_voice.py 重新合成。engine 通过 data/gamedata.js 的 voice 表查找语音文件；缺失时静默。",
+  "engine": "kokoro-82m-v1.1-zh",
+  "inner_speed_scale": 0.94,
+  "speakers": {
+    "hero":      {"voice": "zf_044", "speed": 1.0,  "_f0": 233},
+    "rina":      {"voice": "zf_018", "speed": 1.08, "_f0": 261},
+    "tsukasa":   {"voice": "zf_019", "speed": 0.93, "_f0": 197},
+    "rin":       {"voice": "zf_039", "speed": 1.0,  "_f0": 242},
+    "saki":      {"voice": "zf_070", "speed": 1.1,  "_f0": 293},
+    "yune":      {"voice": "zf_022", "speed": 0.9,  "_f0": 214},
+    "chiyo":     {"voice": "zf_043", "speed": 0.96, "_f0": 281},
+    "shiori":    {"voice": "zf_049", "speed": 0.9,  "_f0": 253},
+    "broadcast": {"voice": "zf_049", "speed": 0.88, "_f0": 253},
+    "unknown":   {"voice": "zf_049", "speed": 0.85, "_f0": 253},
+    "haruka":    {"voice": "zf_036", "speed": 1.0,  "_f0": 224},
+    "miu":       {"voice": "zf_083", "speed": 1.1,  "_f0": 267},
+    "koharu":    {"voice": "zf_073", "speed": 1.05, "_f0": 327},
+    "minase":    {"voice": "zf_007", "speed": 0.95, "_f0": 229},
+    "kashiwagi": {"voice": "zm_009", "speed": 1.05, "_f0": 130},
+    "kamishiro": {"voice": "zm_033", "speed": 0.95, "_f0": 112}
+  }
+}

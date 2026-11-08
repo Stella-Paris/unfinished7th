@@ -1,0 +1,319 @@
+// ============ 黄昏特训：地点异常事件 / 少女偶遇 ============
+// 异常：选择「处理」进行判定（需求=该地点主属性，随天数上升）。成功→本周目该地点特训理智消耗降低；失败或绕开→本次消耗更高。
+
+== anom_try
+@sfx glitch
+我屏住呼吸，朝异常的核心伸出手。
+@check anomaly ok=anom_ok ng=anom_ng
+== anom_ok
+异常平息了。
+@end
+== anom_ng
+异常没有平息。
+@end
+== anom_skip
+我移开视线，假装什么都没看见。
+可那股违和感像一根刺，扎在意识的角落里。今天的特训，注定会格外累。
+@end
+
+// ---------- 图书馆（INT） ----------
+== anom_library_1
+@sfx page
+书架之间响起「沙沙」的翻页声。没有风，也没有人。
+一整排书的书脊同时变成了空白。翻开，每一页都印着同一行字：「今天是第一天」。
+（是这个世界的「记录」出了错。如果能找到它重复的规律……）
+@choice
+* 处理异常：把空白书按页码重新排序，找出错位的那一本 -> anom_try stance=resolve
+* 不去管它（本次特训消耗更多理智） -> anom_skip stance=avoid
+== anom_library_2
+@fx glitch
+阅览桌上的台灯一盏接一盏地熄灭，又一盏接一盏地亮起——按照某种节奏。
+像是有人在用灯光打摩斯电码。
+@choice
+* 处理异常：记下明灭的节奏并破译它 -> anom_try stance=resolve
+* 不去管它（本次特训消耗更多理智） -> anom_skip stance=avoid
+== anom_library_ok
+我找到了。是一本被塞反的《校史》——把它放正的瞬间，所有书脊上的字都回来了。
+图书馆的空气变得轻快起来。以后在这里，心会静得多。
+@end
+== anom_library_ng
+@fx redflash
+文字在我眼前疯狂增殖，爬满了书页、桌面、我的手背。我捂着眼睛逃出了那排书架。
+@end
+
+// ---------- 旧校舍地下（POW） ----------
+== anom_basement_1
+@sfx heartbeat
+走廊尽头的黑暗在「呼吸」。每吸一口气，灯管就暗一分。
+黑暗的中心，悬浮着一团没有形状的、冰冷的东西。它在吸食周围的一切能量——包括我的。
+@choice
+* 处理异常：用异能正面压制它 -> anom_try stance=resolve
+* 不去管它（本次特训消耗更多理智） -> anom_skip stance=avoid
+== anom_basement_2
+@sfx door
+储藏库里所有的柜门同时打开，又同时关上。「砰——」
+每一扇柜门的内侧，都贴着同一张学生证。照片的位置是一团马赛克。
+@choice
+* 处理异常：把异能灌进柜门，把这段「循环」震碎 -> anom_try stance=resolve
+* 不去管它（本次特训消耗更多理智） -> anom_skip stance=avoid
+== anom_basement_ok
+@fx flash
+那团黑暗在我的力量下发出无声的尖叫，碎成了一地灰尘。灯光重新稳定下来。
+地下的空气不再那么压人了。
+@end
+== anom_basement_ng
+@fx redflash
+它反过来咬住了我。有那么几秒，我感觉自己的异能被一根看不见的管子抽了出去。
+@end
+
+// ---------- 天台（POW/INT） ----------
+== anom_rooftop_1
+@sfx glitch
+夕阳的颜色忽然倒转了——天空变成青绿色，云变成了漆黑的剪影。
+铁丝网的影子在地上扭动，拼成一个巨大的钟面，指针停在17:50。
+@choice
+* 处理异常：感知这片天空的「频率」，把它调回来 -> anom_try stance=resolve
+* 不去管它（本次特训消耗更多理智） -> anom_skip stance=avoid
+== anom_rooftop_2
+风里传来烟花升空的呼啸声。可天上什么都没有。
+声音一遍又一遍地重复，每一遍都更近一点。
+@choice
+* 处理异常：找到声音的源头，把它切断 -> anom_try stance=resolve
+* 不去管它（本次特训消耗更多理智） -> anom_skip stance=avoid
+== anom_rooftop_ok
+天空的颜色慢慢流回了原处。晚风重新变得温柔。
+以后再来这里，大概能安心地吹一会儿风了。
+@end
+== anom_rooftop_ng
+@fx redflash
+呼啸声在耳朵里炸开。我捂着耳朵蹲下去，很久之后才发现，天台上其实一直很安静。
+@end
+
+// ---------- 生态温室（CON） ----------
+== anom_greenhouse_1
+藤蔓沿着玻璃顶棚疯长，缠住了洒水管、栏杆，然后向我的脚踝伸过来。
+它们的叶子是灰色的，摸上去像塑料。
+@choice
+* 处理异常：硬扛着把藤蔓一根根扯下来 -> anom_try stance=resolve
+* 不去管它（本次特训消耗更多理智） -> anom_skip stance=avoid
+== anom_greenhouse_2
+温室里的温度骤降。玻璃上结出霜花，霜花拼成了一行字：「这里没有春天」。
+我的呼吸变成白雾，手指冻得发麻。
+@choice
+* 处理异常：撑住寒意，找到冷气的源头 -> anom_try stance=resolve
+* 不去管它（本次特训消耗更多理智） -> anom_skip stance=avoid
+== anom_greenhouse_ok
+最后一根藤蔓松开了。霜花融化成水珠，顺着玻璃滑落下来。
+温室里重新有了一点温度。
+@end
+== anom_greenhouse_ng
+@fx redflash
+寒意钻进了骨头。我裹紧外套逃了出去，指尖很久都没有知觉。
+@end
+
+// ---------- 变电站（POW） ----------
+== anom_substation_1
+@sfx electric
+变压器的嗡鸣声里混进了一个人声。低低的、断断续续的，在哼一首歌。
+电弧在绝缘子之间来回跳跃，拼出一张模糊的人脸。
+@choice
+* 处理异常：用异能把电弧强行导入地下 -> anom_try stance=resolve
+* 不去管它（本次特训消耗更多理智） -> anom_skip stance=avoid
+== anom_substation_2
+@sfx electric
+控制室的所有指针同时打到了红区。警报没有响——因为警报器本身在「笑」。
+@choice
+* 处理异常：压住暴走的电流，手动复位 -> anom_try stance=resolve
+* 不去管它（本次特训消耗更多理智） -> anom_skip stance=avoid
+== anom_substation_ok
+@fx flash
+电弧乖乖地沉进了地面。嗡鸣声恢复了单调的节奏——单调得让人安心。
+@end
+== anom_substation_ng
+@fx redflash
+电流擦过指尖，我整条手臂麻得抬不起来。那张人脸在电弧里对我笑了一下，消失了。
+@end
+
+// ---------- 广播室（INT） ----------
+== anom_broadcast_1
+@sfx glitch
+没有人碰的调音台，推子自己在动。音箱里传出今天早上的早会录音——倒着播放。
+@choice
+* 处理异常：找出被篡改的那条音轨，把它删除 -> anom_try stance=resolve
+* 不去管它（本次特训消耗更多理智） -> anom_skip stance=avoid
+== anom_broadcast_2
+资料室的旧报纸上，所有日期都在缓慢地变化。「第一天」「第二天」……「第七天」「第一天」。
+@choice
+* 处理异常：找到日期循环的起点，把它钉住 -> anom_try stance=resolve
+* 不去管它（本次特训消耗更多理智） -> anom_skip stance=avoid
+== anom_broadcast_ok
+最后一个推子停了下来。音箱里只剩下轻微的底噪。
+我在控制台上发现了一张便利贴：「谢谢」。字迹很娟秀。
+@end
+== anom_broadcast_ng
+@fx redflash
+倒放的声音钻进脑子里，变成了一句清晰的话：「你也会忘记的」。
+@end
+
+// ---------- 医务室（CON） ----------
+== anom_infirmary_1
+病床的帘子后面，有人在咳嗽。一声，又一声。
+我拉开帘子——床上没有人，只有一个人形的凹陷，和一摊还温热的水渍。
+@choice
+* 处理异常：忍住寒意，检查病床下面 -> anom_try stance=resolve
+* 不去管它（本次特训消耗更多理智） -> anom_skip stance=avoid
+== anom_infirmary_2
+药品库里所有药瓶的标签都变成了同一个名字。药片在瓶子里轻轻地跳动，像有心跳。
+@choice
+* 处理异常：一瓶一瓶地把它们归位 -> anom_try stance=resolve
+* 不去管它（本次特训消耗更多理智） -> anom_skip stance=avoid
+== anom_infirmary_ok
+病床下面压着一张旧病历。我把它放回柜子里，咳嗽声就再也没有出现过。
+@end
+== anom_infirmary_ng
+@fx redflash
+咳嗽声跟着我出了医务室，一直跟到走廊尽头。
+@end
+
+// ---------- 校门（CON/POW） ----------
+== anom_gate_1
+@fx glitch
+灰雾从铁门的缝隙里渗了进来，在地面上铺开一层像素状的薄膜。被它碰到的落叶，一片一片地「消失」了。
+@choice
+* 处理异常：顶着雾气，用异能把缝隙封死 -> anom_try stance=resolve
+* 不去管它（本次特训消耗更多理智） -> anom_skip stance=avoid
+== anom_gate_2
+门卫室的监控画面里，校门外站着一排学生。他们一动不动，脸都朝着学校。
+可是我抬头看过去——门外空无一人。
+@choice
+* 处理异常：走到门外去，确认那里到底有什么 -> anom_try stance=resolve
+* 不去管它（本次特训消耗更多理智） -> anom_skip stance=avoid
+== anom_gate_ok
+雾退了回去，缝隙合拢。监控画面也恢复了正常——只有空荡荡的路。
+@end
+== anom_gate_ng
+@fx redflash
+雾舔过我的手背。那块皮肤像被橡皮擦过一样发白、麻木。
+@end
+
+// ---------- 操场钟楼（CON） ----------
+== anom_field_1
+@sfx clock
+钟楼的齿轮在倒转。整个操场上的影子都开始往反方向移动，我的影子也是。
+@choice
+* 处理异常：爬进钟楼，用身体卡住倒转的齿轮 -> anom_try stance=resolve
+* 不去管它（本次特训消耗更多理智） -> anom_skip stance=avoid
+== anom_field_2
+跑道上出现了一串脚印。它们在我面前一步一步地往前延伸，可是没有人在跑。
+脚印的尺寸，和我的一模一样。
+@choice
+* 处理异常：追上那串脚印 -> anom_try stance=resolve
+* 不去管它（本次特训消耗更多理智） -> anom_skip stance=avoid
+== anom_field_ok
+「咔」的一声，齿轮停住，又缓缓地正转起来。影子回到了它们该在的位置。
+@end
+== anom_field_ng
+@fx redflash
+我追到筋疲力尽，脚印却在终点线前消失了。回头看，我自己跑过的路上，一个脚印都没有留下。
+@end
+
+// ---------- 偶遇 ----------
+== enc_rina_1
+@show rina center
+莉奈：哟～你也来{loc}啊？巧了！
+她自来熟地挤到我身边，一边刷手机一边絮絮叨叨地说着今天的八卦。
+吵吵闹闹的。可是不知道为什么，心里那块绷紧的地方，松开了一点。
+@end
+== enc_rina_2
+@show rina center
+莉奈：……啊，被看到了。
+她一个人坐在{loc}的角落里，眼睛有点红。下一秒，她又换上了大大的笑脸。
+莉奈：没事没事！走，陪我练一会儿？一个人好无聊的嘛。
+@end
+== enc_rina_3
+@show rina center
+莉奈：猜猜我带了什么？限定草莓牛奶！分你一半～
+我们靠着墙喝完了那盒牛奶。夕阳把两个人的影子拉得很长。
+@end
+== enc_tsukasa_1
+@show tsukasa center
+司学姐在{loc}做着负重训练，汗水顺着下巴往下滴。
+司：……要一起吗？我可以帮你看着姿势。
+她的指导简短又精准。一个小时过去，身体累，心却很踏实。
+@end
+== enc_tsukasa_2
+@show tsukasa center
+司：别勉强。
+她把一瓶水丢给我，自己在旁边坐下，什么也不说。
+沉默一点也不尴尬。像有一堵墙，替我挡住了风。
+@end
+== enc_tsukasa_3
+@show tsukasa center
+司：……今天，有个一年级的女生又给我写信了。
+她把信折好放进口袋，耳朵有点红。
+司：我回信了。……第一次。
+@end
+== enc_rin_1
+@show rin center
+凛：哼，你也来{loc}？……别误会，本小姐只是碰巧路过。
+她嘴上这么说，却留下来陪我练了一整个黄昏，顺便挑剔了我十七处动作。
+@end
+== enc_rin_2
+@show rin center
+凛学姐正对着手机屏幕发呆。屏幕上是一条没有回复的消息：「父亲」。
+凛：……看什么看。陪本小姐待一会儿，就当是你的荣幸。
+@end
+== enc_rin_3
+@show rin center
+凛：喏。
+她递过来一盒草莓牛奶，别过脸去。
+凛：买多了而已。……喝不完很浪费。
+@end
+== enc_saki_1
+@show saki center
+咲：啊！你也在这里！太好了，帮我扶一下这个——
+她正在修{loc}里一个坏掉的东西。修好之后，她转过头，冲我笑得眼睛弯弯。
+咲：两个人一起，果然快多了！
+@end
+== enc_saki_2
+@show saki center
+咲坐在{loc}的台阶上，盯着自己的手指发呆。
+咲：……今天有人让我帮忙，我说了「下次吧」。心跳得好快，可是……感觉还不坏。
+@end
+== enc_saki_3
+@show saki center
+咲：给！我做的小纸花～
+她往我手心里放了一朵歪歪扭扭的纸向日葵。
+咲：不是修好的，是新做的哦。
+@end
+== enc_yune_1
+@show yune center
+云音：你看起来有心事。……不用说，我不读你的心。
+她递给我一杯温热的红茶，安安静静地陪我坐在{loc}。
+那种被「不打扰」的温柔，比任何安慰都管用。
+@end
+== enc_yune_2
+@show yune center
+云音学姐在{loc}读一本中文诗集，看见我，就念了一句给我听。
+云音：「莫听穿林打叶声，何妨吟啸且徐行。」……是我家乡的诗。
+@end
+== enc_yune_3
+@show yune center
+云音：我在想……如果有一天能带谁回上海看看就好了。
+她说完，自己先愣了一下，然后轻轻地笑了。
+@end
+== enc_chiyo_1
+@show chiyo center
+千夜：你来{loc}的概率，我算过是 23.7%。……所以，不算巧合。
+她推了推贝雷帽，把笔记本挪过来一点，给我腾出位置。
+@end
+== enc_chiyo_2
+@show chiyo center
+千夜：……能陪我坐一会儿吗？一个人的时候，脑子停不下来。
+我们并排坐着，谁也没说话。她的呼吸慢慢变得平稳。
+@end
+== enc_chiyo_3
+@show chiyo center
+千夜：这道题，你来试试。
+她把一张写满算式的纸推给我。我解错了。她却笑了——第一次，像个普通的一年级生那样。
+@end

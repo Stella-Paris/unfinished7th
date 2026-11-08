@@ -1,0 +1,75 @@
+{
+  "_doc": "全局数值表。dev/tune.js 会根据模拟结果改写标记为 tunable 的字段。",
+  "ap_per_phase": 3,
+  "days": 7,
+  "san": {
+    "max": 100,
+    "daily_regen": 15,
+    "disturbed_below": 40,
+    "collapse_below": 20,
+    "misclick_chance": 0.18,
+    "garble_ratio": 0.35
+  },
+  "insight": {
+    "max": 100,
+    "intuition_at": 30,
+    "transfer_at": 60,
+    "true_end_at": 100
+  },
+  "class_gain": {
+    "base": 2.74,
+    "rand_min": 0.8,
+    "rand_max": 1.2,
+    "_tunable": true
+  },
+  "class_san_cost": {
+    "INT": 0,
+    "CON": 0,
+    "POW": 2
+  },
+  "macro_san_loss": [
+    0,
+    4,
+    6,
+    7,
+    9,
+    11,
+    13,
+    0
+  ],
+  "burn_san": {
+    "cost": 15,
+    "bonus": 9,
+    "min_san_after": 0
+  },
+  "npc_base_survival": 0.5,
+  "npc_aided_survival": 1,
+  "npc_death_san_loss": 6,
+  "rehearsal_skill_at": 4,
+  "loop7_unlock_runs": 6,
+  "final_check": {
+    "INT": 55,
+    "POW": 55,
+    "ally_reduction": 4,
+    "bond_skill_bonus": 2
+  },
+  "rest_san": 10,
+  "injury": {
+    "ap_penalty": 1
+  },
+  "intuition_preview": true,
+  "dusk_train": {
+    "_doc": "黄昏特训：收益=class_gain.base×gain_mult×属性权重×成长倍率×(1+level_bonus×分区深度)×随机；SAN消耗=san_cost×地点系数×修正。异常判定需求=anomaly_need.base+per_day×天数（地点主属性）。",
+    "gain_mult": 0.8,
+    "level_bonus": 0.1,
+    "san_cost": 5,
+    "resolved_mult": 0.4,
+    "unresolved_mult": 1.8,
+    "encounter_mult": 0.5,
+    "anomaly_chance": 0.35,
+    "anomaly_need": {
+      "base": 17,
+      "per_day": 6
+    }
+  }
+}

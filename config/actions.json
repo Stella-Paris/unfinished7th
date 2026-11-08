@@ -1,0 +1,22 @@
+{
+  "_doc": "行动表。classes=上午课程(每AP一次, 收益=class_gain.base*apt*随机)；activities=下午文化祭项目(每日同项目限1次)；rehearse 累计达 balance.rehearsal_skill_at 解锁羁绊技能。",
+  "classes": {
+    "int": {"name": "超能力学理", "stat": "INT", "icon": "📘", "desc": "逻辑推演、机关识破、信息破译。", "teacher": "kamishiro"},
+    "con": {"name": "战术体能课", "stat": "CON", "icon": "🏃", "desc": "抗击打、身体韧性、抗过载体质。", "teacher": "kashiwagi"},
+    "pow": {"name": "能级共振课", "stat": "POW", "icon": "✦", "desc": "异能输出功率与法则干预强度。会轻微消耗理智。", "teacher": "haruka"}
+  },
+  "activities": {
+    "stage":    {"name": "舞台剧", "icon": "🎭", "owner": "saki", "fx": {"CON": 2, "SAN": 2},
+                 "skill": "聚光灯下的勇气", "skill_desc": "终局判定 +2；第七日舞台剧落幕时，所有人都记住了你的台词。"},
+    "band":     {"name": "乐队合奏", "icon": "🎸", "owner": "rin", "fx": {"POW": 2, "SAN": 3},
+                 "skill": "共鸣的和弦", "skill_desc": "终局判定 +2；你们的合奏把濒临崩溃的人心短暂地连在一起。"},
+    "cafe":     {"name": "女仆咖啡厅", "icon": "☕", "owner": "rina", "fx": {"CON": 1, "SAN": 4},
+                 "skill": "满座的温度", "skill_desc": "终局判定 +2；每一张桌子都坐满了不愿离去的人。"},
+    "tech":     {"name": "技术展览", "icon": "🔧", "owner": "chiyo", "fx": {"INT": 3},
+                 "skill": "开源的奇迹", "skill_desc": "终局判定 +2；展台的演算模型被你改写成了全校疏散路线图。"},
+    "fortune":  {"name": "占卜屋", "icon": "🔮", "owner": "yune", "fx": {"INT": 1, "SAN": 5},
+                 "skill": "命运之外的签", "skill_desc": "终局判定 +2；你抽到了一支本不该存在的签——『第八日 大吉』。"},
+    "security": {"name": "学园安保", "icon": "🛡", "owner": "tsukasa", "fx": {"CON": 3, "SAN": -1},
+                 "skill": "守夜人的路线", "skill_desc": "终局判定 +2；你记熟了 17:50 时每一条通往天台的路。"}
+  }
+}

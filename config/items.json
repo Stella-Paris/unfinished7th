@@ -1,0 +1,21 @@
+{
+  "_doc": "道具表。relic=灵魂信物(Day5 生还获得,跨周目)；aid=因果干涉道具(通关该角色线后解锁, 在 deliver_loc 于 deadline 日黄昏(含)之前交付, 该角色 Day5 存活率变为 npc_aided_survival)；key=真结局核心解密道具。",
+  "items": {
+    "relic_rina":    {"type": "relic", "owner": "rina",    "name": "染血的校徽铭牌", "desc": "莉奈在真实灾难中掉落的校徽。象征被撕碎的空间与不灭的友谊。"},
+    "relic_tsukasa": {"type": "relic", "owner": "tsukasa", "name": "失重的黑曜石指环", "desc": "彻底脱离地心引力而悬浮的指环。司放下重负、信任同伴的释怀。"},
+    "relic_rin":     {"type": "relic", "owner": "rin",     "name": "熔断的蓝宝石胸针", "desc": "在数万伏高压下熔融凝固的家传宝石。斩断提线、为同伴绽放的雷霆。"},
+    "relic_saki":    {"type": "relic", "owner": "saki",    "name": "晶体化的向日葵发卡", "desc": "由咲的生命力晶体化而成。牺牲，以及找回自我的新生。"},
+    "relic_yune":    {"type": "relic", "owner": "yune",    "name": "褪色的空白日记本", "desc": "记录着无法言说的孤独，和对真挚羁绊的隐秘渴望。"},
+    "relic_chiyo":   {"type": "relic", "owner": "chiyo",   "name": "停走在17:50的古董怀表", "desc": "表盖碎裂，指针被死死锁在灾难前夕。穷尽算力寻求奇迹的执念。"},
+
+    "aid_rina":    {"type": "aid", "owner": "rina",    "name": "高维空间定位锚标", "deliver_loc": "gate",       "deadline": 2, "desc": "为瞬移提供绝对安全的坐标。Day2 黄昏前于【校门】交给莉奈。"},
+    "aid_tsukasa": {"type": "aid", "owner": "tsukasa", "name": "微型重力抗荷缓冲阀", "deliver_loc": "basement",  "deadline": 3, "desc": "中和暴走的重力脉冲。Day3 黄昏前放置于【旧校舍地下】走廊。"},
+    "aid_rin":     {"type": "aid", "owner": "rin",     "name": "超导陶瓷绝缘手套",   "deliver_loc": "substation","deadline": 3, "desc": "隔绝数万伏反冲电弧。Day4 下午前（即 Day3 黄昏）于【变电站】交给凛。"},
+    "aid_saki":    {"type": "aid", "owner": "saki",    "name": "高纯有机活性诱导剂", "deliver_loc": "greenhouse","deadline": 4, "desc": "延缓细胞无机化。Day5 上午前（即 Day4 黄昏）送至【生态温室】。"},
+    "aid_yune":    {"type": "aid", "owner": "yune",    "name": "深层脑波滤波阻断器", "deliver_loc": "library",   "deadline": 4, "desc": "屏蔽死难者的绝望精神污染。Day5 下午前（即 Day4 黄昏）于【图书馆】交给云音。"},
+    "aid_chiyo":   {"type": "aid", "owner": "chiyo",   "name": "逻辑降温算力抑止剂", "deliver_loc": "infirmary", "deadline": 5, "desc": "防止因果推演烧毁脑神经。Day5 黄昏于【医务室】交给千夜。"},
+
+    "key_extra":    {"type": "key", "name": "破损的号外报纸", "desc": "灾难当天的号外。标题被烧去一半：『文化祭……全员……』"},
+    "key_musicbox": {"type": "key", "name": "锈蚀的发条八音盒", "desc": "底座刻着『浅野』。拧紧发条，会响起校歌的前四小节。"}
+  }
+}

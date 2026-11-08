@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>未完的第七日 · The Unfinished 7th Day</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="stage">
+
+  <!-- ========== 标题 ========== -->
+  <section id="scr-title" class="screen">
+    <div class="kb-bg" style="background-image:url(assets/cg/title.webp)"></div>
+    <div class="title-veil"></div>
+    <div class="title-block">
+      <div class="title-sub">The Unfinished 7th Day</div>
+      <h1 class="title-logo"><span>未完的</span><em>第七日</em></h1>
+      <div class="title-tag">日系超能力学园 · 时空轮回养成 · 悬疑 ADV</div>
+    </div>
+    <nav class="title-menu">
+      <button data-act="new">开始观测</button>
+      <button data-act="continue" id="btn-continue">继续</button>
+      <button data-act="gallery">观测记录</button>
+      <button data-act="settings">设置</button>
+    </nav>
+    <div class="title-foot">17:50 — 时间停在这里，等你回来。</div>
+    <div id="tap-start" class="tap-start">— 点击任意处开始 —</div>
+  </section>
+
+  <!-- ========== 观测空间 ========== -->
+  <section id="scr-hub" class="screen hidden">
+    <div class="kb-bg slow" style="background-image:url(assets/bg/obs_space.webp)"></div>
+    <div class="hub-veil"></div>
+    <header class="hub-head">
+      <div>
+        <div class="eyebrow">因果观测空间 · Causal Observation Space</div>
+        <h2>选择要投影的少女</h2>
+      </div>
+      <div class="hub-meta">
+        <div class="ins-ring" id="hub-ins"><svg viewBox="0 0 120 120"><circle class="trk" cx="60" cy="60" r="52"/><circle class="val" cx="60" cy="60" r="52"/></svg><div class="ins-num"><b>0</b><small>INSIGHT</small></div></div>
+        <div class="hub-tiers" id="hub-tiers"></div>
+      </div>
+    </header>
+    <div class="hub-cards" id="hub-cards"></div>
+    <aside class="hub-side">
+      <h3>灵魂信物</h3><div class="slots" id="hub-relics"></div>
+      <h3>因果干涉道具</h3><div class="slots" id="hub-aids"></div>
+      <h3>核心解密道具</h3><div class="slots" id="hub-keys"></div>
+      <h3>结局</h3><div id="hub-endings" class="end-list"></div>
+    </aside>
+    <footer class="hub-foot">
+      <span id="hub-loop"></span>
+      <button class="ghost" data-act="title">返回标题</button>
+    </footer>
+  </section>
+
+  <!-- ========== 游戏 ========== -->
+  <section id="scr-game" class="screen hidden">
+    <div id="bg-a" class="bg"></div><div id="bg-b" class="bg"></div>
+    <div id="sprites"></div>
+    <div id="cg" class="cg"></div>
+    <div id="fx-red" class="fx-red"></div>
+    <div id="fx-flash" class="fx-flash"></div>
+    <div id="fx-glitch" class="fx-glitch"></div>
+
+    <header class="hud-top">
+      <div class="day-badge"><b id="hud-day">DAY 1</b><span id="hud-theme">起点与潜流</span></div>
+      <ol class="timeline" id="hud-time">
+        <li data-s="dawn">清晨</li><li data-s="morning">上午</li><li data-s="noon">下午</li><li data-s="dusk">黄昏</li><li data-s="event">夜幕</li>
+      </ol>
+      <div class="hud-btns">
+        <button data-act="log" title="回顾">LOG</button>
+        <button data-act="auto" id="btn-auto" title="自动">AUTO</button>
+        <button data-act="skip" id="btn-skip" title="快进">SKIP</button>
+        <button data-act="voice" id="btn-voice" title="角色语音开关">VOICE</button>
+        <button data-act="settings" title="设置">⚙</button>
+        <button data-act="hub" title="放弃本周目">✕</button>
+      </div>
+    </header>
+
+    <aside class="hud-stats" id="hud-stats">
+      <div class="who"><div class="face" id="hud-face"></div><div><b id="hud-name"></b><small id="hud-ability"></small></div></div>
+      <div class="stat" data-k="INT"><label>INT 智力</label><div class="bar"><i></i></div><b>0</b></div>
+      <div class="stat" data-k="CON"><label>CON 体质</label><div class="bar"><i></i></div><b>0</b></div>
+      <div class="stat" data-k="POW"><label>POW 超能力</label><div class="bar"><i></i></div><b>0</b></div>
+      <div class="stat san" data-k="SAN"><label>SAN 理智 <em id="hud-san-state">稳定</em></label><div class="bar"><i></i></div><b>0</b></div>
+      <div class="hud-ins"><label>INSIGHT</label><b id="hud-ins">0</b><span id="hud-ins-tier"></span></div>
+      <div class="hud-npc" id="hud-npc"></div>
+    </aside>
+
+    <div id="phase" class="phase hidden">
+      <div class="phase-head"><h3 id="phase-title"></h3><div class="ap" id="phase-ap"></div></div>
+      <div id="intuition" class="intuition hidden"></div>
+      <div class="phase-cards" id="phase-cards"></div>
+    </div>
+
+    <div id="dialog" class="dialog hidden">
+      <div class="nameplate" id="dlg-name"></div>
+      <div class="dlg-text" id="dlg-text"></div>
+      <div class="dlg-next">▼</div>
+    </div>
+
+    <div id="choices" class="choices hidden"></div>
+
+    <div id="check" class="modal hidden">
+      <div class="check-card">
+        <div class="eyebrow" id="chk-kind">危机判定</div>
+        <h3 id="chk-title"></h3>
+        <div class="chk-mode" id="chk-mode"></div>
+        <div class="chk-rows" id="chk-rows"></div>
+        <div class="chk-note" id="chk-note"></div>
+        <div class="chk-btns">
+          <button id="chk-go" class="primary">直面危机</button>
+          <button id="chk-burn" class="danger">燃烧理智</button>
+        </div>
+        <div class="chk-stamp" id="chk-stamp"></div>
+      </div>
+    </div>
+
+    <div id="summary" class="modal hidden">
+      <div class="sum-card">
+        <div class="eyebrow">夜</div><h3 id="sum-title"></h3>
+        <div id="sum-body"></div>
+        <button class="primary" id="sum-ok">迎接下一个清晨</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 结局 ========== -->
+  <section id="scr-ending" class="screen hidden">
+    <div class="end-bg" id="end-bg"></div>
+    <div class="end-block">
+      <div class="end-type" id="end-type"></div>
+      <h2 id="end-name"></h2>
+      <p id="end-desc"></p>
+      <div id="end-gain" class="end-gain"></div>
+      <button class="primary" id="end-ok">回到观测空间</button>
+    </div>
+  </section>
+
+  <!-- ========== 浮层 ========== -->
+  <div id="log" class="overlay hidden"><div class="ov-card wide"><h3>回顾</h3><div id="log-body" class="log-body"></div><button data-close>关闭</button></div></div>
+  <div id="settings" class="overlay hidden"><div class="ov-card">
+    <h3>设置</h3>
+    <label>背景音乐 <input type="range" min="0" max="100" data-set="bgm"></label>
+    <label>音效 <input type="range" min="0" max="100" data-set="sfx"></label>
+    <label>播放角色语音 <input type="checkbox" data-set="voiceOn"></label>
+    <label>语音音量 <input type="range" min="0" max="100" data-set="voice"></label>
+    <label>文字速度 <input type="range" min="5" max="100" data-set="textSpeed"></label>
+    <label>自动播放间隔 <input type="range" min="5" max="100" data-set="autoDelay"></label>
+    <div class="row"><button id="btn-reset" class="danger">清除全部进度</button><button data-close>关闭</button></div>
+  </div></div>
+  <div id="gallery" class="overlay hidden"><div class="ov-card wide"><h3>观测记录</h3><div id="gallery-body" class="gallery"></div><button data-close>关闭</button></div></div>
+  <div id="toasts"></div>
+  <div id="debug" class="debug hidden"></div>
+</div>
+
+<script src="data/gamedata.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/bot.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/debug.js"></script>
+</body>
+</html>

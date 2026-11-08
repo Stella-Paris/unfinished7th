@@ -1,0 +1,118 @@
+// ============ 下午文化祭排练（按天轮换） ============
+
+== loop_start
+@bg obs_space
+@bgm void
+红线再次从指尖垂落。
+第 {loop} 次。这一次，我是——{me_full}。
+@fx flash
+@sfx warp
+@end
+
+== act_stage_1
+@bg auditorium
+@show saki center
+舞台剧《星之彼岸》第一次对台词。咲负责道具和布景，忙得像只小陀螺。
+咲：这里的布景我来修！啊，那边的灯也交给我！
+@end
+== act_stage_2
+@bg auditorium
+走位排练。我在舞台上念出那句台词：「就算世界明天结束，我也想和你看今晚的星星。」台下有人吸了吸鼻子。
+@end
+== act_stage_3
+@bg auditorium
+@show haruka center
+遥：灯光再暗一点……对，就是这样。这一幕，要让观众觉得「永远」是真的存在的。
+@end
+
+== act_band_1
+@bg music_room
+@show rin center
+@if route:rin -> act_band_self
+凛学姐坐在钢琴前，冷着脸挑剔每一个人的节拍。可她自己，一个音都没有弹错。
+@end
+== act_band_self
+我坐在钢琴前，听着身后的吉他和鼓一点点跟上来。……这种感觉，父亲永远不会懂。
+@end
+== act_band_2
+@bg music_room
+合奏的时候，所有乐器忽然同时停了一拍。然后又若无其事地继续。没人说话，但大家都笑了。
+@end
+== act_band_3
+@bg music_room
+鼓手敲断了第三根鼓棒。「再来一次！」大家喊。汗水和笑声混在一起。
+@end
+
+== act_cafe_1
+@bg classroom_day
+@show miu center
+美羽：欢迎回来，主人～！嗯……还是不对，再来一次！你也来练练？
+@end
+== act_cafe_2
+@bg classroom_day
+@show rina center
+@if route:rina -> act_cafe_self
+莉奈学姐端着托盘在桌子之间瞬移，笑得像个太阳。只有在转身的时候，那个笑容会消失半秒。
+@end
+== act_cafe_self
+我端着托盘穿过一桌桌的笑声。今天，我没有刻意去讨好谁——可大家还是对我笑了。
+@end
+== act_cafe_3
+@bg classroom_day
+我们试做了草莓千层。卖相很差，可是所有人都抢着吃完了。
+@end
+
+== act_tech_1
+@bg computer_room
+@show chiyo center
+@if route:chiyo -> act_tech_self
+千夜在展台的屏幕上写满了公式。「这是全校人流的概率模型。」她说，「……很无聊吧。」一点也不。
+@end
+== act_tech_self
+我把全校人流模型投在展台的屏幕上。有个一年级生盯着看了很久，说：「好漂亮。」……第一次有人这样说。
+@end
+== act_tech_2
+@bg computer_room
+展台的投影仪坏了。我们拆开它、修好它，又顺手给它加了一个功能。
+@end
+== act_tech_3
+@bg lab
+展品的说明牌写到第三版。每一个数字我都核对了两遍。
+@end
+
+== act_fortune_1
+@bg tea_room
+@show yune center
+@if route:yune -> act_fortune_self
+云音学姐披着纱巾坐在水晶球后面。「来，伸出手。」她看着我的掌纹，轻声说：「你在找一个很远的地方。」
+@end
+== act_fortune_self
+我替来客们看手相。他们的烦恼还是那么普通——可今天，我认真地听完了每一个。
+@end
+== act_fortune_2
+@bg tea_room
+我抽了一张塔罗牌。「世界·正位」。完成，圆满，新的开始。
+@end
+== act_fortune_3
+@bg tea_room
+占卜屋的茶很香。有那么一会儿，我忘记了这个世界正在崩坏。
+@end
+
+== act_security_1
+@bg schoolyard
+@show kashiwagi center
+柏木：文化祭当天的巡逻路线，给我背下来！东楼、西楼、天台通道——一条都不许漏！
+@end
+== act_security_2
+@bg corridor
+@show tsukasa center
+@if route:tsukasa -> act_security_self
+司学姐一个人扛着三块路障走过走廊。我想帮忙，她说：「不用。」……然后递给了我一块。
+@end
+== act_security_self
+我扛着路障走过走廊。一个一年级生跑过来，说要帮我拿一块。我犹豫了一下，递给了她。
+@end
+== act_security_3
+@bg rooftop_dusk
+巡逻到天台通道。铁门上「故障维修」的牌子，在风里哐哐作响。
+@end
