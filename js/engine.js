@@ -20,7 +20,7 @@
 
   function newMeta() {
     return { v: 1, insightFlags: {}, relics: [], aids: [], keys: [], endings: {}, cleared: {},
-             runsCompleted: 0, loops: 0, seen: {}, deaths: 0 };
+             runsCompleted: 0, loops: 0, seen: {}, deaths: 0, bondMax: {} };
   }
 
   class Game {
@@ -78,7 +78,11 @@
         flags: {}, items: [], injury: 0, rehearse: {}, todayDone: {}, skills: [], npc,
         seenClues: {}, delivered: {}, resolved: {}, visit: null, queue: [], script: null, ended: null, pendingEnding: null,
         log: [], dayLog: [], checks: {}, entered: false,
+        bond: {}, dayBond: {}, bondEv: {}, encN: {}, growth: {}, cevDay: {}, cevSeen: {}, chain: [],
       };
+      // 羁绊残响：她们不记得你，但灵魂记得——按历史最高羁绊继承一部分
+      const BB = this.B.bond, bm = this.meta.bondMax || (this.meta.bondMax = {});
+      if (BB) for (const g in npc) this.run.bond[g] = Math.floor((bm[g] || 0) * BB.memory_ratio);
       this.enterStage();
       return this.run;
     }
@@ -88,7 +92,7 @@
       r.entered = true;
       switch (r.stage) {
         case "dawn": {
-          r.todayDone = {}; r.dayLog = [];
+          r.todayDone = {}; r.dayLog = []; r.dayBond = {};
           if (r.day > 1) this.applyFx({ SAN: B.san.daily_regen }, "晨间恢复");
           const loss = B.macro_san_loss[r.day] || 0;
           if (loss) this.applyFx({ SAN: -loss }, "校园异变");
@@ -96,6 +100,7 @@
           if (r.day === 1 && r.route !== "hero") r.queue.push(this.meta.seen.prologue ? "loop_start" : "prologue");
           r.queue.push(m.scene);
           if (r.day === 6) for (const g in r.npc) if (!r.npc[g].alive) r.queue.push("rumor_" + g);
+          if (this.D.scenes[`view_${r.route}_d${r.day}`]) r.queue.push(`view_${r.route}_d${r.day}`);
           r.afterQueue = r.day === 7 ? "festival" : "morning";
           break;
         }
@@ -133,10 +138,11 @@
       if (r.day === 5) {
         for (const g in r.npc) {
           const n = r.npc[g];
-          const p = n.aided ? B.npc_aided_survival : B.npc_base_survival;
+          const lv = this.bondLevel(g);
+          const p = n.aided ? B.npc_aided_survival : Math.min(1, B.npc_base_survival + (B.bond ? B.bond.survival_per_level * lv : 0));
           n.alive = this.rand() < p;
           const nm = this.char(g).full;
-          if (n.alive) news.push(n.aided ? `${nm}：你交付的道具起了作用。她平安度过了今晚。` : `${nm}：传来消息——她挺过来了，但伤得不轻。`);
+          if (n.alive) news.push(n.aided ? `${nm}：你交付的道具起了作用。她平安度过了今晚。` : lv >= 2 ? `${nm}：她挺过来了。听说昏迷时，她一直攥着和你的约定。` : `${nm}：传来消息——她挺过来了，但伤得不轻。`);
           else { news.push(`${nm}：……今晚之后，再也没有人见过她。`); this.applyFx({ SAN: -B.npc_death_san_loss }, "噩耗"); }
         }
       }
@@ -189,6 +195,7 @@
                            preview: loc.rest ? null : this.duskPreview(id) });
         }
         for (const d of this.deliverables()) v.options.push(d);
+        for (const b of this.bondEvents()) v.options.push(b);
       }
       if (!v.options.some((o) => !o.done && !o.closed)) { r.ap = 0; return this.next(); }
       return v;
@@ -207,19 +214,25 @@
       return out;
     }
 
-    findClue(loc) {
-      const r = this.run, m = this.meta;
+    findClue(loc) {   // 优先给出从未观测过的线索，避免「已见过」的线索挡住后面的新线索
+      let first = null;
       for (const c of this.D.config.explore.clues) {
-        if (c.loc !== loc || r.seenClues[c.id]) continue;
-        if (c.days && (r.day < c.days[0] || r.day > c.days[1])) continue;
-        if (c.route && c.route !== r.route) continue;
-        if (c.min_insight && this.insight < c.min_insight) continue;
-        if (c.need && !c.need.every((x) => this.has(x))) continue;
-        if (c.need_any && !c.need_any.some((x) => this.has(x))) continue;
-        if (c.key && m.keys.includes(c.key)) continue;
-        return c;
+        if (!this.clueReady(c, loc)) continue;
+        if (c.insight && this.meta.insightFlags[c.id] == null) return c;
+        if (!first) first = c;
       }
-      return null;
+      return first;
+    }
+    clueReady(c, loc) {
+      const r = this.run, m = this.meta;
+      if (c.loc !== loc || r.seenClues[c.id]) return false;
+      if (c.days && (r.day < c.days[0] || r.day > c.days[1])) return false;
+      if (c.route && c.route !== r.route) return false;
+      if (c.min_insight && this.insight < c.min_insight) return false;
+      if (c.need && !c.need.every((x) => this.has(x))) return false;
+      if (c.need_any && !c.need_any.some((x) => this.has(x))) return false;
+      if (c.key && m.keys.includes(c.key)) return false;
+      return true;
     }
     has(x) { const m = this.meta; return m.relics.includes(x) || m.keys.includes(x) || m.aids.includes(x) || !!this.run.flags[x]; }
 
@@ -236,7 +249,7 @@
         const fx = { [cl.stat]: v };
         const sc = B.class_san_cost[cl.stat]; if (sc) fx.SAN = -sc;
         res.fx = this.applyFx(fx, cl.name);
-        res.scene = this.D.scenes["class_" + id] ? "class_" + id : null;
+        res.scene = this.pickClassEvent(id);
       } else if (kind === "activity") {
         const a = C.actions.activities[id];
         if (r.todayDone[id]) throw new Error("already rehearsed today");
@@ -247,8 +260,11 @@
           r.skills.push(id); res.skill = a.skill;
           this.emit({ type: "skill", id, name: a.skill });
         }
+        if (a.owner && a.owner !== r.route) this.addBond(a.owner, B.bond ? B.bond.rehearse : 0, a.name);
+        // 排练剧情随进度推进：第 n 次排练播放第 n 段；之后在中段随机
         const variants = this.D.sceneGroups["act_" + id] || [];
-        if (variants.length) res.scene = variants[(r.day - 1) % variants.length];
+        const n = r.rehearse[id];
+        if (variants.length) res.scene = n <= variants.length ? variants[n - 1] : variants[variants.length > 2 ? 1 + Math.floor(this.rand() * (variants.length - 2)) : variants.length - 1];
       } else if (kind === "explore") {
         const loc = C.explore.locations[id];
         if (loc.rest) { res.fx = this.applyFx({ SAN: B.rest_san }, "休息"); res.scene = "a_dorm1"; }
@@ -271,6 +287,7 @@
             if (clue.key && !this.meta.keys.includes(clue.key)) { this.meta.keys.push(clue.key); res.key = clue.key; }
             res.insight = this.grantInsight(clue.id, clue.insight);
             res.scene = clue.id; res.clue = true;
+            if (this.D.scenes[`${clue.id}_${r.route}`]) r.chain.push(`${clue.id}_${r.route}`);
           } else if (loc.anomaly && !r.resolved[id] && this.rand() < T.anomaly_chance) {
             r.visit.kind = "anomaly";
             res.scene = loc.anomaly[Math.floor(this.rand() * loc.anomaly.length)];
@@ -282,7 +299,9 @@
             const encs = girl && this.D.sceneGroups["enc_" + girl];
             if (encs && encs.length) {
               r.visit.kind = "encounter"; r.visit.girl = girl; res.girl = girl;
-              res.scene = encs[Math.floor(this.rand() * encs.length)];
+              const k = (r.encN[girl] = (r.encN[girl] || 0) + 1);
+              res.scene = k <= encs.length ? encs[k - 1] : encs[Math.floor(this.rand() * encs.length)];
+              if (B.bond) this.addBond(girl, B.bond.encounter, "偶遇");
             } else {
               const pool = C.explore.ambient[id] || [];
               const a = pool[Math.floor(this.rand() * pool.length)];
@@ -295,11 +314,98 @@
         const it = C.items.items[id];
         r.delivered[id] = true; r.npc[it.owner].aided = true;
         res.scene = "deliver_" + it.owner;
+        if (B.bond) this.addBond(it.owner, B.bond.deliver, "交付");
+      } else if (kind === "bond") {
+        const [g, lvs] = id.split(":"), lv = +lvs, BB = B.bond;
+        r.bondEv[id] = true;
+        const sig = this.char(g).sig || "CON";
+        res.fx = this.applyFx({ SAN: BB.event_san, [sig]: BB.event_stat }, `约定·${this.char(g).name}`);
+        r.flags[`bond_${g}_${lv}`] = true;
+        res.scene = `bond_${g}_${lv}`;
+        const pair = `pair_${r.route}_${g}`;
+        if (lv === 2 && this.D.scenes[pair]) { r.chain.push(res.scene); res.scene = pair; }
+        res.girl = g;
       }
       r.ap--;
       if (res.scene && this.D.scenes[res.scene]) this.startScene(res.scene);
       this.emit({ type: "act", res });
       return res;
+    }
+
+    /* ---------------- 羁绊 / 成长 ---------------- */
+    bondLevel(g) {
+      const BB = this.B.bond; if (!BB || !this.run) return 0;
+      const p = (this.run.bond || {})[g] || 0; let lv = 0;
+      for (const t of BB.levels) if (p >= t) lv++;
+      return lv;
+    }
+    bondInfo(g) {
+      const BB = this.B.bond, p = (this.run.bond || {})[g] || 0, lv = this.bondLevel(g);
+      return { pts: p, lv, next: BB.levels[lv] || null, prev: lv ? BB.levels[lv - 1] : 0, name: BB.names[lv] };
+    }
+    addBond(g, n, src) {
+      const r = this.run, BB = this.B.bond;
+      if (!BB || !n || !r.npc[g] || !r.npc[g].alive) return 0;
+      r.bond = r.bond || {}; r.dayBond = r.dayBond || {};
+      const before = this.bondLevel(g);
+      r.bond[g] = Math.min(BB.levels[BB.levels.length - 1] + 6, (r.bond[g] || 0) + n);
+      r.dayBond[g] = (r.dayBond[g] || 0) + n;
+      const bm = this.meta.bondMax || (this.meta.bondMax = {});
+      bm[g] = Math.max(bm[g] || 0, r.bond[g]);
+      const after = this.bondLevel(g);
+      this.emit({ type: "bond", g, n, lv: after, up: after > before, src });
+      return n;
+    }
+    bondEvents() {
+      const r = this.run, out = [];
+      if (!this.B.bond) return out;
+      for (const g in r.npc) {
+        if (!r.npc[g].alive) continue;
+        const lv = this.bondLevel(g);
+        for (const L of [2, 3]) {
+          if (lv < L || (r.bondEv || {})[`${g}:${L}`]) continue;
+          if (!this.D.scenes[`bond_${g}_${L}`]) continue;
+          out.push({ kind: "bond", id: `${g}:${L}`, owner: g, lv: L, name: `与${this.char(g).name}的约定`, sig: this.char(g).sig, pts: r.bond[g] });
+          break;
+        }
+      }
+      return out.sort((a, b) => b.pts - a.pts).slice(0, 2);   // 同时最多两张，避免挤占黄昏行动
+    }
+    support(id) {   // 同伴支援：Day3 起的危机判定，每位羁绊达到「信赖」的存活少女 +1
+      const r = this.run, BB = this.B.bond, spec = this.D.config.checks.checks[id];
+      if (!BB || !spec || !id.startsWith(r.route + "_") || spec.day < BB.support_from_day) return { n: 0, girls: [] };
+      const girls = Object.keys(r.npc).filter((g) => r.npc[g].alive && this.bondLevel(g) >= BB.support_level);
+      const n = Math.min(BB.support_max, girls.length * BB.support_bonus);
+      return { n, girls };
+    }
+    awakenBonus(id) {
+      const r = this.run, G = this.B.growth, spec = this.D.config.checks.checks[id];
+      if (!G || !spec || !id.startsWith(r.route + "_") || !(r.growth || {})[2] || spec.day < 5) return 0;
+      return G.check_bonus;
+    }
+    rank(v) { for (const [t, n] of this.B.ranks) if (v >= t) return n; return "E"; }
+    checkGrowth(k, before, after) {
+      const r = this.run, G = this.B.growth;
+      if (after <= before) return;
+      if (this.B.ranks && this.rank(after) !== this.rank(before)) this.emit({ type: "rank", stat: k, rank: this.rank(after) });
+      const sig = this.char(r.route).sig; r.growth = r.growth || {};
+      if (!G || k !== sig) return;
+      G.at.forEach((t, i) => {
+        const lv = i + 1;
+        if (!r.growth[lv] && before < t && after >= t && this.D.scenes[`grow_${r.route}_${lv}`]) {
+          r.growth[lv] = true; r.queue.push(`grow_${r.route}_${lv}`);
+          this.emit({ type: "awaken", lv, stat: k, name: (this.char(r.route).awaken || [])[i] });
+        }
+      });
+    }
+    pickClassEvent(id) {
+      const r = this.run, ch = this.B.class_event;
+      if (!ch || r.cevDay[r.day] || this.rand() >= ch.chance) return null;
+      const pool = [...(this.D.sceneGroups["cev_" + id] || []), ...(this.D.sceneGroups[`cev_${r.route}`] || [])].filter((s) => !r.cevSeen[s]);
+      if (!pool.length) return null;
+      const s = pool[Math.floor(this.rand() * pool.length)];
+      r.cevDay[r.day] = 1; r.cevSeen[s] = 1;
+      return s;
     }
 
     /* ---------------- 黄昏特训 ---------------- */
@@ -317,7 +423,9 @@
     duskPreview(id) {
       const loc = this.D.config.explore.locations[id], areas = loc.areas || [];
       const cnt = (this.meta.areaVisits || {})[id] || 0;
-      return { stats: Object.keys(loc.train.stats), weights: loc.train.stats, san: this.trainSan(id, null),
+      const enc = this.D.config.explore.encounters || {}, r = this.run;
+      const regulars = Object.keys(r.npc).filter((g) => r.npc[g].alive && enc[g] && (enc[g][id] || 0) >= 0.15);
+      return { regulars, stats: Object.keys(loc.train.stats), weights: loc.train.stats, san: this.trainSan(id, null),
                resolved: !!this.run.resolved[id], nextArea: cnt < areas.length ? areas[cnt].name : null,
                unlocked: Math.min(cnt, areas.length), areas: areas.length };
     }
@@ -346,6 +454,7 @@
         if (k === "SAN") v = Math.min(this.B.san.max, v);
         r.stats[k] = Math.max(0, v);
         out[k] = r.stats[k] - before;
+        if (k !== "SAN") this.checkGrowth(k, before, r.stats[k]);
         if (out[k]) r.dayLog.push({ src, stat: k, d: out[k] });
       }
       if (fx.flag) r.flags[fx.flag] = true;
@@ -393,7 +502,13 @@
           case "seen": v = !!m.endings[arg]; break;
           case "check": v = r.checks[arg] === true; break;
           case "rand": v = this.rand() < +arg; break;
-          default: v = false;
+          case "bonds": v = num(Object.keys(r.npc).filter((g) => r.npc[g].alive && this.bondLevel(g) >= 2).length); break;
+          case "growth": v = !!(r.growth || {})[arg]; break;
+          case "cleared_n": v = num(Object.keys(m.cleared).length); break;
+          case "dead_n": v = num(Object.values(r.npc).filter((n) => !n.alive).length); break;
+          default:
+            if (k.startsWith("bondlv_")) { const g = k.slice(7); v = !!(r.npc[g] && r.npc[g].alive) && num(this.bondLevel(g)); }
+            else v = false;
         }
         return neg ? !v : v;
       });
@@ -423,6 +538,7 @@
           case "fx": this.applyFx(cmd.fx, r.script.scene); break;
           case "flag": r.flags[cmd.name] = true; break;
           case "insight": this.grantInsight(cmd.id, cmd.n); break;
+          case "bond": this.addBond(cmd.g === "here" ? (r.visit && r.visit.girl) : cmd.g, cmd.n, "剧情"); break;
           case "ending": r.pendingEnding = cmd.id; break;
           case "end": this.endScript(); return null;
           default:
@@ -433,7 +549,11 @@
       return null;
     }
     jump(to) { const st = this.run.script && this.run.script.stance; this.startScene(to); if (this.run.script) this.run.script.stance = st; }
-    endScript() { this.run.script = null; }
+    endScript() {
+      const r = this.run; r.script = null;
+      const nx = r.chain && r.chain.shift();
+      if (nx) this.startScene(nx);
+    }
 
     subst(s) {
       const c = this.char(this.avatar);
@@ -461,6 +581,7 @@
       if (o.fx) this.applyFx(o.fx, "选择");
       const stance = o.stance;
       if (stance === "avoid" && r.visit && !r.visit.done) r.visit.outcome = "avoided";
+      if (stance) r.flags["st_" + stance] = true;   // 记住抉择：后续剧情会回应
       this.jump(o.to);
       if (stance) r.script.stance = stance;
       return { idx, slipped };
@@ -485,10 +606,12 @@
     checkView(id) {
       const spec = this.checkSpec(id), r = this.run;
       const stance = r.script.stance && spec.stance ? spec.stance[r.script.stance] : null;
-      const bonus = (stance ? stance.bonus : 0) + (spec.skillBonus || 0);
+      const sup = this.support(id), aw = this.awakenBonus(id);
+      const bonus = (stance ? stance.bonus : 0) + (spec.skillBonus || 0) + sup.n + aw;
       const rows = Object.entries(spec.req).map(([k, need]) => ({ stat: k, need, have: r.stats[k] + (k === "SAN" ? 0 : bonus) }));
       const burnable = Object.keys(spec.req).some((k) => k !== "SAN") && r.stats.SAN > this.B.burn_san.cost;
-      return { type: "check", id, mode: spec.mode, rows, bonus, fatal: !!spec.fatal, burnable,
+      return { type: "check", id, mode: spec.mode, rows, bonus, fatal: !!spec.fatal, burnable, support: sup, awaken: aw,
+               stanceBonus: stance ? stance.bonus : 0,
                reveal: this.insight >= this.B.insight.intuition_at, stance: r.script.stance,
                pass: this.evalCheck(spec, bonus, false) };
     }
@@ -505,7 +628,7 @@
     resolveCheck(burn = false) {
       const r = this.run, pc = r.script.pendingCheck, spec = this.checkSpec(pc.id);
       const stance = r.script.stance && spec.stance ? spec.stance[r.script.stance] : null;
-      const bonus = (stance ? stance.bonus : 0) + (spec.skillBonus || 0);
+      const bonus = (stance ? stance.bonus : 0) + (spec.skillBonus || 0) + this.support(pc.id).n + this.awakenBonus(pc.id);
       if (stance && stance.san) this.applyFx({ SAN: stance.san }, "抉择");
       const ok = this.evalCheck(spec, bonus, burn);
       if (burn) this.applyFx({ SAN: -this.B.burn_san.cost }, "燃烧理智");
@@ -552,7 +675,13 @@
 
     /* ---------------- persistence ---------------- */
     save() { return JSON.stringify({ meta: this.meta, run: this.run }); }
-    load(s) { const o = JSON.parse(s); this.meta = Object.assign(newMeta(), o.meta); this.run = o.run; }
+    load(s) {
+      const o = JSON.parse(s); this.meta = Object.assign(newMeta(), o.meta); this.run = o.run;
+      if (this.run) {   // 旧存档迁移：补齐羁绊 / 成长相关字段
+        const d = { bond: {}, dayBond: {}, bondEv: {}, encN: {}, growth: {}, cevDay: {}, cevSeen: {}, chain: [] };
+        for (const k in d) if (this.run[k] == null) this.run[k] = d[k];
+      }
+    }
 
     /* ---------------- intuition (Insight >= 30) ---------------- */
     intuition() {

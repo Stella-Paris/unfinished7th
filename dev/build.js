@@ -10,6 +10,10 @@
  *   @check id ok=scene ng=scene      危机判定（数值见 config/checks.json）
  *   @final ok=scene ng=scene         第七周目终局判定
  *   @goto scene | @if cond -> scene | @set flag | @eff SAN-5 INT+2 | @insight id n | @ending id | @end
+ *   @bond 角色id|here n              增加羁绊（here=本次偶遇的少女）
+ *   条件(cond, 用 & 连接, ! 取反): flag:x route:x alive:x dead:x aided:x relic:x key:x cleared:x skill:x check:x growth:1
+ *       数值: INT>=40 SAN<30 day>=3 insight>=60 relics>=3 skills>=1 loop>=2 bonds>=2 bondlv_rina>=2 cleared_n>=3
+ *   剧情选项的 stance 会自动记为 flag:st_<stance>，后续剧情可以据此呼应
  *   @choice  后接若干行   * 选项文字 -> scene [stance=x] [if=cond]
  *   名字：台词     对白      （……）  内心独白（由当前化身角色发声）      其他行  旁白
  */
@@ -69,6 +73,7 @@ function parseStory(text, file, scenes, voiceLines, errors) {
         case "set": cur.push({ t: "flag", name: rest[0] }); break;
         case "eff": cur.push({ t: "fx", fx: parseEff(arg) }); break;
         case "insight": cur.push({ t: "insight", id: rest[0], n: +rest[1] }); break;
+        case "bond": cur.push({ t: "bond", g: rest[0], n: +rest[1] }); break;
         case "ending": cur.push({ t: "ending", id: rest[0] }); break;
         case "end": cur.push({ t: "end" }); break;
         case "bg": case "bgm": case "sfx": case "cg": case "hide": case "fx": case "show":
@@ -84,7 +89,9 @@ function parseStory(text, file, scenes, voiceLines, errors) {
     const cmdObj = { t: "line", who, text };
     if (inner) cmdObj.inner = true;
     if (who) {
-      const speakers = who === "me" ? (AVATARS.includes(owner) ? [owner] : AVATARS) : [who];
+      const pm = curId.match(/^(?:(?:pair|grow|view|cev)_)?([a-z]+)_/), sm = curId.match(/_([a-z]+)$/);
+      const self = AVATARS.includes(owner) ? owner : pm && AVATARS.includes(pm[1]) ? pm[1] : sm && AVATARS.includes(sm[1]) ? sm[1] : null;
+      const speakers = who === "me" ? (self ? [self] : AVATARS) : [who];
       const h = hash(text);
       cmdObj.vk = who === "me" ? `_${h}` : `${who}_${h}`;
       for (const s of speakers) {
@@ -131,6 +138,20 @@ function compile({ quiet = false } = {}) {
   for (const g of config.characters.playable) if (!sceneGroups["enc_" + g]) errors.push(`no encounter scenes for ${g}`);
   for (const l in config.explore.ambient) for (const a of config.explore.ambient[l]) need.push(a.id);
   const missing = need.filter((x) => !scenes[x]);
+
+  // 资源与指令检查
+  const has = (dir, id, exts) => exts.some((e) => fs.existsSync(path.join(ROOT, "assets", dir, id + e)));
+  const chars = config.characters.chars;
+  for (const [id, sc] of Object.entries(scenes)) for (const c of sc) {
+    if (c.t === "bg" && !has("bg", c.a, [".webp", ".png", ".jpg"])) errors.push(`scene ${id}: missing bg ${c.a}`);
+    if (c.t === "cg" && c.a !== "off" && !has("cg", c.a, [".webp", ".png", ".jpg"])) errors.push(`scene ${id}: missing cg ${c.a}`);
+    if (c.t === "bgm" && c.a !== "stop" && !has("audio/bgm", c.a, [".ogg", ".mp3"])) errors.push(`scene ${id}: missing bgm ${c.a}`);
+    if (c.t === "sfx" && !has("audio/sfx", c.a, [".ogg", ".mp3", ".wav"])) errors.push(`scene ${id}: missing sfx ${c.a}`);
+    if (c.t === "show" && !chars[c.a]) errors.push(`scene ${id}: unknown sprite ${c.a}`);
+    if (c.t === "bond" && c.g !== "here" && !config.characters.playable.includes(c.g)) errors.push(`scene ${id}: bad @bond ${c.g}`);
+    if (c.t === "bond" && !(c.n > 0)) errors.push(`scene ${id}: bad @bond amount`);
+  }
+  for (const g of config.characters.playable) for (const lv of [2, 3]) if (!scenes[`bond_${g}_${lv}`]) errors.push(`missing bond_${g}_${lv}`);
 
   // voice manifest
   const voice = {};

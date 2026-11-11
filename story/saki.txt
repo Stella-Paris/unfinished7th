@@ -149,7 +149,7 @@
 == saki_d5_c
 @check saki_d5 ok=saki_d5_ok ng=saki_d5_ng
 
-== saki_d5_ok
+== saki_d5_ok_main
 @fx flash
 我：……不。
 我对着空无一人的温室，用尽全力喊出来。
@@ -190,7 +190,7 @@
 就像在一张很薄很薄的纸上写字，一用力就会穿过去。
 @end
 
-== saki_d7
+== saki_d7_main
 @bg corridor_blackout
 @bgm hope
 17:46。通往天台的楼梯在剧烈震颤。
@@ -206,3 +206,199 @@
 晶体从指尖开始，变成了光。很暖和。
 @cg off
 @goto route_end_common
+
+// ============ 咲视角 · 每日晨间 ============
+
+== view_saki_d1
+@bg auditorium
+@bgm daily
+@show chiyo center
+早会开始前，同班的白羽千夜在我旁边坐下，翻开她的小本子。
+千夜：日向同学，根据过去三周的数据，你今天会被拜托修东西的次数是 21 次。误差正负 3。
+我：诶——那么多吗！好厉害，千夜酱连这个都能算出来！
+千夜：……你不觉得多吗？
+我：嗯？修东西很开心呀！
+千夜看了我一眼，在本子上写了什么，然后合上了。
+@hide chiyo
+@if relics>=1 -> view_saki_d1_echo
+@goto view_saki_d1_c
+== view_saki_d1_echo
+@fx glitch
+指尖忽然传来一阵很轻的暖意，像是有谁握了一下我的手。
+（……奇怪。明明谁都没碰我。）
+@goto view_saki_d1_c
+== view_saki_d1_c
+「日向同学！」后排的男生举着一把断了腿的折叠椅，「早会结束后能帮我看看吗？」
+@choice
+* 「好呀，交给我！」 -> view_saki_d1_x
+* 「那个……能等到午休吗？」 -> view_saki_d1_y
+== view_saki_d1_x
+我笑着接过椅子。第一件。今天还有二十件。
+（没关系的。大家需要我，就是我最大的价值嘛。）
+@eff CON+1 SAN-2
+@end
+== view_saki_d1_y
+说出口的那一秒，心脏「咚」地撞了一下胸口。
+男生愣了一下，然后点点头：「啊，好的，不急。」
+……就这样？他没有生气？
+千夜在旁边低声说：「次数修正，20 次。」
+@eff SAN+3
+@bond chiyo 1
+@end
+
+== view_saki_d2
+@bg gym
+@bgm daily
+@if check:saki_d1 -> view_saki_d2_a
+@goto view_saki_d2_b
+== view_saki_d2_a
+（昨天对着窗户说「好累」的时候，鼻子酸酸的。）
+（今天早上起来，身体好像真的轻了一点点。原来承认累，也是一种休息啊。）
+@goto view_saki_d2_c
+== view_saki_d2_b
+早上照镜子，我对着自己笑了一下。很标准的笑。
+笑完之后，我在洗手台前站了很久，不知道为什么想哭。
+@eff SAN-2
+@goto view_saki_d2_c
+== view_saki_d2_c
+体育馆的体操垫开线了。我蹲下去，三两下就缝好了。
+@show tsukasa center
+司学姐的护腕裂了一道口子。我说要帮她修，她犹豫了一下，递给了我。
+司：……谢谢。
+她的手腕好冰。像是一直在用力，用力到忘了放松。
+（司学姐，好像和我有点像呢。）
+@bond tsukasa 1
+@hide tsukasa
+@end
+
+== view_saki_d3
+@bg schoolyard
+@bgm tension
+@if check:saki_d2 -> view_saki_d3_a
+@goto view_saki_d3_b
+== view_saki_d3_a
+@if flag:st_shield -> view_saki_d3_sh
+昨天在实验室，我用手接住了好多碎片。指尖的创可贴，今天贴了七个。
+@goto view_saki_d3_c
+== view_saki_d3_sh
+昨天，我把碎片重构成了一面盾。第一次，我的能力不是用来「修」，而是用来「挡」。
+（原来，我也可以保护自己啊。）
+@eff SAN+2
+@goto view_saki_d3_c
+== view_saki_d3_b
+右手缠着绷带，用不了力。可是今天还是有人来找我修东西。
+我用左手慢慢地修。修得很慢，很歪。大家说没关系。
+（真的……没关系吗？）
+@goto view_saki_d3_c
+== view_saki_d3_c
+@show haruka center
+遥：日向同学，今天的器材清点，舞台剧的道具箱就拜托你啦。
+我：好的！
+@hide haruka
+书包里，奶奶送的八音盒轻轻地「叮」了一声。像是在跟我打招呼。
+（今天也要带着它哦。……奶奶。）
+@end
+
+== view_saki_d4
+@bg greenhouse
+@bgm tension
+@if check:saki_d3 -> view_saki_d4_a
+@goto view_saki_d4_b
+== view_saki_d4_a
+八音盒在书包里，安安静静的。它不再唱歌了。
+可是每次摸到它，我都能想起奶奶哼歌的样子。
+（坏掉的东西，也可以被好好地珍惜。我昨天才明白这件事。）
+@eff SAN+2
+@goto view_saki_d4_c
+== view_saki_d4_b
+我的指尖起了好几个水泡。昨天修那只八音盒，修到太阳落山。
+它还是没有响。
+（我连奶奶的东西都修不好。那我……还有什么用呢？）
+@eff SAN-3
+@goto view_saki_d4_c
+== view_saki_d4_c
+清晨的温室里，向日葵全都朝着东方——朝着天台的方向。
+@show yune center
+三年级的暮云音学姐坐在长椅上，手里捧着一杯红茶。
+云音：日向同学，你每天都来浇水啊。
+我：嗯！园艺部的大家养了三年呢，我要好好照顾它们！
+云音：……那，谁来照顾你呢？
+@choice
+* 「我很好的，学姐不用担心！」 -> view_saki_d4_x
+* 「……我也不知道。」 -> view_saki_d4_y
+== view_saki_d4_x
+云音学姐笑了笑，没有拆穿我。她把另一杯红茶递给我。
+@eff SAN+1 CON+1
+@end
+== view_saki_d4_y
+说出来的时候，眼泪掉进了红茶里。
+云音学姐没有说话。她只是挪了挪，在长椅上给我腾出一个位置。
+我们一起看着那片朝东的向日葵，看了很久。
+@bond yune 2
+@eff SAN+3
+@end
+
+== view_saki_d5
+@bg classroom_day
+@bgm mystery
+@if check:saki_d4 -> view_saki_d5_a
+@goto view_saki_d5_b
+== view_saki_d5_a
+（昨天，我在向日葵的身体里，没有看到细胞核。）
+（它们……从一开始就不是活的。那我这三天修好的东西，又是什么呢？）
+@goto view_saki_d5_c
+== view_saki_d5_b
+昨晚我倒在了温室里，醒来时满身都是枯叶。
+（一株都没救下来。……对不起，园艺部的大家。）
+@eff SAN-2
+@goto view_saki_d5_c
+== view_saki_d5_c
+教室的桌角被谁撞掉了一块。我下意识地伸手——
+……等等。以前，这些小小的磕碰，第二天就会自己「长回来」。
+（那是谁在修它们？）
+（……是我吗？是我一直在不知不觉地，修补着这所学校吗？）
+@fx glitch
+@if bonds>=1 -> view_saki_d5_f
+@end
+== view_saki_d5_f
+「咲。」有人轻轻拍了拍我的肩，「今天，什么都别修了，好吗？」
+我抬起头。那个人的眼神，不是在拜托我。是在担心我。
+@eff SAN+4
+@end
+
+== view_saki_d6
+@bg corridor
+@bgm mystery
+我摸了摸头上的发卡。晶体做的向日葵，在晨光里闪着细细的光。
+（昨天，我说了「不」。说出来以后，世界没有塌掉。）
+@if dead_n>=1 -> view_saki_d6_loss
+@goto view_saki_d6_b
+== view_saki_d6_loss
+礼堂角落里，舞台剧断掉的布景还歪在那里。
+我知道，有一个人再也回不来了。这一次，我修不好。
+（可是我会记得。像记得奶奶的歌一样。）
+@eff SAN-3
+@goto view_saki_d6_b
+== view_saki_d6_b
+「咲酱，这个能帮我——」
+我：抱歉！今天我要先做我自己的事！
+说完我就跑掉了。跑到走廊拐角，捂着胸口笑了出来。
+（好紧张。好开心。）
+@eff SAN+3
+@end
+
+== view_saki_d7
+@bg festival
+@bgm festival
+舞台剧《星之彼岸》的后台。道具、布景、灯光——每一样，都是我和大家一起做的。
+@if skill:stage -> view_saki_d7_s
+@goto view_saki_d7_b
+== view_saki_d7_s
+遥：日向同学，最后一幕的台词，你来念吧。
+我：诶？我、我只是做道具的……
+遥：这几天你每次排练都在，台词你比谁都熟。
+@goto view_saki_d7_b
+== view_saki_d7_b
+「就算世界明天结束，我也想和你看今晚的星星。」
+我在心里念了一遍，然后笑了。这一次，不是修补出来的笑。
+@end

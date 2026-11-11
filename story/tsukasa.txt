@@ -152,7 +152,7 @@
 == tsukasa_d5_c
 @check tsukasa_d5 ok=tsukasa_d5_ok ng=tsukasa_d5_ng
 
-== tsukasa_d5_ok
+== tsukasa_d5_ok_main
 @fx flash
 我：……谁……帮帮我……
 那声音小得几乎听不见。可是体育馆的门被撞开了。
@@ -191,7 +191,7 @@
 我只知道，地底下的那个「东西」，和天台之间有某种连接。
 @end
 
-== tsukasa_d7
+== tsukasa_d7_main
 @bg festival_night
 @bgm hope
 17:45。天空正在变白。
@@ -207,3 +207,225 @@
 ……放心。这一次，我不是一个人。
 @cg off
 @goto route_end_common
+
+// ============ 司视角 · 每日晨间 ============
+
+== view_tsukasa_d1
+@bg auditorium
+我站在礼堂最后一排。安保委员的位置，能看见全场。
+@show kashiwagi center
+柏木：黑濑，文化祭当天的巡逻排班表在这里。东楼、西楼、天台通道，你挑。
+我：……全部给我吧。
+柏木：全部？你一个人？
+@hide kashiwagi
+@sfx electric
+台侧的麦克风爆出一阵电流声。前排的有栖川凛僵直着背，像一根绷紧的琴弦。
+三年级那边，桐谷莉奈正笑得前仰后合，整排人都被她带着笑。
+（每个人都有自己的位置。我的位置，就是站在后面，不让任何人出事。）
+@if relics>=1 -> view_tsukasa_d1_echo
+@goto view_tsukasa_d1_c
+== view_tsukasa_d1_echo
+@fx glitch
+脚下的地板很轻地沉了一下，像有谁从很高的地方，轻轻落在了我的身体里。
+（……错觉吧。）
+@goto view_tsukasa_d1_c
+== view_tsukasa_d1_c
+@choice
+* 「全部给我。」——把三条巡逻线都揽下来 -> view_tsukasa_d1_x
+* 「……天台通道，分给别人吧。」 -> view_tsukasa_d1_y
+== view_tsukasa_d1_x
+柏木叹了口气，在排班表上写满了我的名字。
+三条线。七天。我把那张纸折好，放进胸前的口袋里。很重。
+@eff CON+1 SAN-2
+@end
+== view_tsukasa_d1_y
+柏木：哦？难得啊。
+他在天台那一栏写了自己的名字。我盯着那一栏空出来的格子，心里很奇怪地，松了一点。
+@set tsukasa_shared
+@eff SAN+3
+@end
+
+== view_tsukasa_d2
+@bg gym
+@bgm daily
+@if check:tsukasa_d1 -> view_tsukasa_d2_a
+@goto view_tsukasa_d2_b
+== view_tsukasa_d2_a
+@show koharu center
+小春：黑濑学姐！学姐的回信我、我收到了！我会裱起来的！
+我：……不用裱。
+她捂着脸跑掉了。昨天写了十二封回信，写到手腕发酸。可是……不讨厌。
+@hide koharu
+@goto view_tsukasa_d2_c
+== view_tsukasa_d2_b
+走进体育馆的时候，有两个女生在门口小声说着什么。看见我，就散开了。
+（昨天走廊的消防栓……她们大概在说那个吧。）
+我把手插进口袋，假装什么都没听见。
+@eff SAN-2
+@goto view_tsukasa_d2_c
+== view_tsukasa_d2_c
+@show saki center
+一年级的日向咲蹲在垫子旁边，三两下就把开了线的体操垫缝好了。
+咲：司学姐！你的护腕也裂开了哦，我帮你修？
+@choice
+* 把护腕递给她 -> view_tsukasa_d2_x
+* 「不用，我自己来。」 -> view_tsukasa_d2_y
+== view_tsukasa_d2_x
+咲把护腕捧在掌心。光一闪，裂口就像从来没存在过一样。
+咲：好啦！……学姐，你的手腕好冰哦。要多穿点。
+我：……嗯。谢谢。
+（被人照顾的感觉，原来是这样的。有点痒。）
+@bond saki 2
+@eff SAN+2
+@end
+== view_tsukasa_d2_y
+咲：诶——好吧。那学姐要记得，坏掉的东西不用一直撑着哦！
+她蹦蹦跳跳地跑去帮下一个人了。我低头看着护腕上的裂口，很久。
+@eff CON+1
+@end
+
+== view_tsukasa_d3
+@bg schoolyard
+@bgm tension
+@if check:tsukasa_d2 -> view_tsukasa_d3_a
+@goto view_tsukasa_d3_b
+== view_tsukasa_d3_a
+演练开始前，好几个一年级生跑过来跟我说「昨天谢谢学姐」。
+我点点头。手臂的肌肉还在隐隐抽痛，但我把它藏得很好。
+@if flag:st_call -> view_tsukasa_d3_call
+@goto view_tsukasa_d3_c
+== view_tsukasa_d3_call
+小春：昨天学姐喊「趴下」的时候，大家一下子就趴好了！学姐好可靠！
+（……是她们配合得好。不是我一个人的功劳。）
+这个念头冒出来的时候，我自己都愣了一下。
+@eff SAN+2
+@goto view_tsukasa_d3_c
+== view_tsukasa_d3_b
+右臂吊着三角巾。水濑老师说要静养两周，我只答应了两天。
+柏木：黑濑，今天的演练你别上了。
+我：我能上。
+柏木：……你啊。
+@goto view_tsukasa_d3_c
+== view_tsukasa_d3_c
+@sfx heartbeat
+演练进行到一半，我感到脚底传来一阵很低很低的震动。
+不是地震。是重力——在地底深处，有一股重力，像心跳一样，一下、一下地跳。
+（……是我的错觉吗？）
+另一边，输掉的那组学生忽然尖叫着乱成一团。三年级的暮云音快步走过去，一个一个地按住他们的肩膀。
+@end
+
+== view_tsukasa_d4
+@bg corridor
+@bgm tension
+@if check:tsukasa_d3 -> view_tsukasa_d4_a
+@goto view_tsukasa_d4_b
+== view_tsukasa_d4_a
+我翻开笔记本，看着昨天记下的那串数字。
+重力脉冲：每 0.86 秒一次。和人类静息心率几乎一致。
+（重力不应该有心跳。……该告诉谁吗？）
+@choice
+* 把记录拿给计算机教室的白羽千夜看 -> view_tsukasa_d4_x
+* 合上本子。这种事，一个人查就够了 -> view_tsukasa_d4_y
+== view_tsukasa_d4_x
+@show chiyo center
+千夜盯着那串数字，推了推贝雷帽。
+千夜：0.86秒……学姐，这不是自然现象。这是某种「生命体」的特征。
+千夜：……谢谢你告诉我。你给的这个变量，我找了三天。
+@bond chiyo 2
+@eff INT+2
+@end
+== view_tsukasa_d4_y
+我把笔记本塞回书包最底层。
+（反正，不能让别人也卷进来。）
+@eff POW+1
+@end
+== view_tsukasa_d4_b
+吐过血的喉咙还是很疼。我含着一颗薄荷糖去上课，没跟任何人说昨天下过地下。
+@show rin center
+走廊上，有栖川凛对着配电箱皱眉。
+凛：……电压在跳。这所学校的供电系统，简直像在被谁吸血一样。
+凛：黑濑，你今天脸色真难看。本小姐不是关心你，只是不想身边站着一个随时会倒的人。
+我：……知道了。
+@bond rin 1
+@end
+
+== view_tsukasa_d5
+@bg classroom_day
+@bgm mystery
+午饭没有味道。我嚼着面包，像在嚼一块海绵。
+@if check:tsukasa_d4 -> view_tsukasa_d5_a
+@goto view_tsukasa_d5_b
+== view_tsukasa_d5_a
+@if flag:st_breathe -> view_tsukasa_d5_br
+（昨天停电时，我站在了墙上。现在想起来，那种感觉很奇怪——不是我在控制重力，是重力在迁就我。）
+@goto view_tsukasa_d5_c
+== view_tsukasa_d5_br
+（昨天，我第一次放弃了对抗。顺着那股力量呼吸，身体反而轻了。）
+（如果……如果对人也能这样就好了。不硬扛，只是一起呼吸。）
+@eff SAN+3
+@goto view_tsukasa_d5_c
+== view_tsukasa_d5_b
+左手背上贴着胶布，是昨晚拔掉输液管的地方。
+水濑老师早上在走廊里看了我一眼，什么都没说。那个眼神，比骂我还难受。
+@eff SAN-2
+@goto view_tsukasa_d5_c
+== view_tsukasa_d5_c
+@if bonds>=1 -> view_tsukasa_d5_f
+@goto view_tsukasa_d5_n
+== view_tsukasa_d5_f
+有人隔着桌子，把一瓶水推到我手边。
+「你在发抖。」
+我张了张嘴，想说「我没事」。可这一次，这三个字卡在了喉咙里，怎么都说不出来。
+（……原来，有人会看见。）
+@eff SAN+4
+@end
+== view_tsukasa_d5_n
+我一个人坐在体育馆的看台上吃完了面包。
+空荡荡的场馆里，只有我的影子。它好像比平时，更重了一点。
+@end
+
+== view_tsukasa_d6
+@bg schoolyard
+@bgm mystery
+早上醒来，我下意识地握了握拳。手指上，那枚黑曜石指环轻轻地悬浮着，离皮肤一毫米。
+（昨天那么多人一起抓住了我的手。……那份重量，我记得。）
+@if dead_n>=1 -> view_tsukasa_d6_loss
+@goto view_tsukasa_d6_b
+== view_tsukasa_d6_loss
+安保委员的值班表贴在公告栏上。有一个名字被红笔划掉了。
+我站在公告栏前，很久。
+（如果我能把重力分一点给她……如果我当时在场……）
+@eff SAN-3
+@goto view_tsukasa_d6_b
+== view_tsukasa_d6_b
+@show koharu center
+小春：学姐！今天……今天放学后，可以和我一起去看一下操场吗？我、我有东西想给学姐看……
+我：……好。不过要等我巡逻完。
+小春：嗯！我会一直等的！
+@hide koharu
+（「一直等」。这个世界，也许没有「一直」了。）
+（但是今天，我想答应她。）
+@end
+
+== view_tsukasa_d7
+@bg festival
+@bgm festival
+文化祭的人潮比我想象的还要多。我戴着安保袖标，在人群里慢慢地走。
+@if skill:security -> view_tsukasa_d7_s
+@goto view_tsukasa_d7_b
+== view_tsukasa_d7_s
+东楼、西楼、天台通道。这几天跟着巡逻排练，每一个拐角我都闭着眼也能走。
+柏木：黑濑！天台那条，今天我们一起走。
+我：……嗯。一起。
+@goto view_tsukasa_d7_b
+== view_tsukasa_d7_b
+@if flag:tsukasa_shared -> view_tsukasa_d7_sh
+@goto view_tsukasa_d7_e
+== view_tsukasa_d7_sh
+排班表上，天台那一栏还写着柏木的名字。第一天我分出去的那一格。
+（原来从那一天起，我就已经在学着放手了啊。）
+@goto view_tsukasa_d7_e
+== view_tsukasa_d7_e
+天空的颜色淡得像一张旧照片。我抬起头，感受着空气里那股越来越沉的重量。
+（今天，我要扛的不是责任。是我自己想要守护的东西。）
+@end

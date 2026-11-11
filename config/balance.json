@@ -17,7 +17,7 @@
     "true_end_at": 100
   },
   "class_gain": {
-    "base": 2.74,
+    "base": 2.34,
     "rand_min": 0.8,
     "rand_max": 1.2,
     "_tunable": true
@@ -62,14 +62,77 @@
     "_doc": "黄昏特训：收益=class_gain.base×gain_mult×属性权重×成长倍率×(1+level_bonus×分区深度)×随机；SAN消耗=san_cost×地点系数×修正。异常判定需求=anomaly_need.base+per_day×天数（地点主属性）。",
     "gain_mult": 0.8,
     "level_bonus": 0.1,
-    "san_cost": 5,
+    "san_cost": 7,
     "resolved_mult": 0.4,
     "unresolved_mult": 1.8,
     "encounter_mult": 0.5,
     "anomaly_chance": 0.35,
     "anomaly_need": {
-      "base": 17,
+      "base": 19,
       "per_day": 6
     }
+  },
+  "bond": {
+    "_doc": "羁绊：偶遇/排练对方项目/交付/剧情获得点数；levels=Lv1~3阈值；names=等级名；memory_ratio=下周目继承历史最高羁绊的比例(灵魂残响)；survival_per_level=Day5 未交付道具时每级+存活率；support_*=Day3起化身危机判定，每位达到 support_level 的存活少女 +support_bonus(上限 support_max)；event_*=约定事件奖励(SAN 与该少女的招牌属性)",
+    "levels": [
+      3,
+      7,
+      12
+    ],
+    "names": [
+      "陌生",
+      "相识",
+      "信赖",
+      "挚友"
+    ],
+    "encounter": 2,
+    "rehearse": 1,
+    "deliver": 3,
+    "memory_ratio": 0.3,
+    "survival_per_level": 0.08,
+    "support_from_day": 3,
+    "support_level": 2,
+    "support_bonus": 1,
+    "support_max": 2,
+    "event_san": 6,
+    "event_stat": 2
+  },
+  "growth": {
+    "_doc": "异能觉醒：化身少女的招牌属性(characters.sig)首次跨过阈值时播放觉醒剧情；二阶觉醒后 Day5 起的本人危机判定 +check_bonus",
+    "at": [
+      40,
+      60
+    ],
+    "check_bonus": 2
+  },
+  "ranks": [
+    [
+      80,
+      "S"
+    ],
+    [
+      65,
+      "A"
+    ],
+    [
+      50,
+      "B"
+    ],
+    [
+      35,
+      "C"
+    ],
+    [
+      20,
+      "D"
+    ],
+    [
+      0,
+      "E"
+    ]
+  ],
+  "class_event": {
+    "_doc": "上午课程后触发课堂小事件的概率(每天最多一次, 同一事件每周目一次)",
+    "chance": 0.4
   }
 }

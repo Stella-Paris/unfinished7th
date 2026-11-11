@@ -145,7 +145,7 @@
 == rin_d5_c
 @check rin_d5 ok=rin_d5_ok ng=rin_d5_ng
 
-== rin_d5_ok
+== rin_d5_ok_main
 @fx flash
 （不对。不是为了家族。）
 （是为了明天还能在钢琴室里弹琴。为了那盒没有署名的草莓牛奶。为了这所吵吵闹闹的、讨厌的、我喜欢的学校。）
@@ -184,7 +184,7 @@
 声音很熟悉。可我想不起来在哪里听过。
 @end
 
-== rin_d7
+== rin_d7_main
 @bg rooftop_night
 @bgm hope
 17:48。天台。
@@ -200,3 +200,218 @@
 我：……哼。走慢了的话，本小姐可饶不了你。
 @cg off
 @goto route_end_common
+
+// ============ 凛视角 · 每日晨间 ============
+
+== view_rin_d1
+@bg gate_day
+@bgm daily
+黑色的轿车在校门口停下。司机替我拉开车门，周围的学生纷纷让开一条路。
+（昨晚父亲的电话，到现在还在耳朵里嗡嗡作响。）
+@show rina center
+莉奈：哟～凛酱早安！今天也好有气场哦！
+我：……桐谷学姐，请不要用那种称呼叫我。
+莉奈：诶——可是很可爱啊！
+@hide rina
+@if relics>=1 -> view_rin_d1_echo
+@goto view_rin_d1_c
+== view_rin_d1_echo
+@fx glitch
+指尖窜过一道静电。那一瞬间，我好像接收到了某个很远很远的频率——有人在轻声叫我的名字。
+（……是哪个台的杂音吗。）
+@goto view_rin_d1_c
+== view_rin_d1_c
+钢琴室的钥匙在口袋里。乐队报名表上，我的名字是昨天偷偷写上去的。
+@choice
+* 把报名表撕了。父亲说得对，有栖川家的女儿不该站在台上 -> view_rin_d1_x
+* 把报名表折好，放回口袋。还没到放弃的时候 -> view_rin_d1_y
+== view_rin_d1_x
+纸屑落进垃圾桶。手指在发抖，指尖的电火花噼啪地跳了两下，把纸屑烧焦了一角。
+（……这样就好。这样，就不会让他失望了。）
+@eff SAN-3 INT+1
+@end
+== view_rin_d1_y
+我把报名表折成四折，夹进乐谱里。
+（就让我再任性七天。只有七天。）
+@set rin_keep_form
+@eff SAN+2
+@end
+
+== view_rin_d2
+@bg gym
+@bgm daily
+@if check:rin_d1 -> view_rin_d2_a
+@goto view_rin_d2_b
+== view_rin_d2_a
+昨天放学后，我在钢琴室弹了一首父亲最讨厌的曲子。今天手指还记得那种痛快的感觉。
+@goto view_rin_d2_c
+== view_rin_d2_b
+昨天早会烧坏了麦克风之后，班上没有一个人敢跟我说话。
+（无所谓。本小姐本来就不需要她们。）
+@eff SAN-2
+@goto view_rin_d2_c
+== view_rin_d2_c
+握力测试。我捏着测力计，数字停在一个优雅的位置。旁边的黑濑司一捏，指针直接打到了底。
+@show tsukasa center
+我：……你是猩猩吗。
+司：你是陶瓷吗。
+我们互相看了一眼。然后同时别过头。
+@hide tsukasa
+（二年级里，唯一一个不怕本小姐的人。……讨厌。但不是很讨厌。）
+@bond tsukasa 1
+@end
+
+== view_rin_d3
+@bg schoolyard
+@bgm tension
+模拟实战演练。我和三年级的桐谷莉奈被分到了同一组。
+@show rina center
+我：桐谷学姐，请你不要在我放电的时候乱瞬移。万一电到你，本小姐可不负责。
+莉奈：凛酱好凶～
+我：……谁准你这么叫的。
+@if check:rin_d2 -> view_rin_d3_a
+@goto view_rin_d3_b
+== view_rin_d3_a
+她笑嘻嘻地在我身边闪来闪去。我的电磁场「看」得见她每一次瞬移的轨迹。
+……不对。她的落点，每一次都偏了一点点。像空间本身在漂移。
+（就和昨天的电弧一样。不是正弦波。这个世界的「波形」，全都有一点歪。）
+@goto view_rin_d3_c
+== view_rin_d3_b
+双手还缠着纱布。电弧烧过的神经，一碰东西就发麻。
+莉奈：凛酱，你手怎么了？
+我：……练琴练的。
+她看了我一眼，没有再问。那个眼神，有点像是看穿了什么。
+@goto view_rin_d3_c
+== view_rin_d3_c
+@choice
+* 配合她的瞬移节奏，把电磁场调成她的「落点信标」 -> view_rin_d3_x
+* 各打各的。本小姐不需要配合任何人 -> view_rin_d3_y
+== view_rin_d3_x
+演练结束，我们组拿了第一。
+莉奈：凛酱好厉害！刚才那一下，我感觉像有人在终点给我开灯一样！
+我：……只是顺手而已。
+她伸手要和我击掌。我犹豫了一秒，抬起了手。「啪」。
+@bond rina 2
+@eff POW+1
+@end
+== view_rin_d3_y
+我们组拿了第二。我一个人打赢了三个对手，回头才发现，她在后面替我挡掉了两次偷袭。
+（……多管闲事。）
+@eff POW+2 SAN-1
+@end
+
+== view_rin_d4
+@bg music_room
+@bgm tension
+早上，我一个人在钢琴室。
+@if check:rin_d3 -> view_rin_d4_a
+@goto view_rin_d4_b
+== view_rin_d4_a
+昨天那股脉冲的节奏，我一直忘不掉。我把它弹了出来——
+「咚、咚、咚」。是心跳。成百上千颗，叠在一起。
+（是谁的心跳？为什么整座学校的电，都在跟着它跳？）
+@goto view_rin_d4_c
+== view_rin_d4_b
+昨天在医务室醒来时，枕边那盒没有署名的草莓牛奶，我还没喝。
+它就放在钢琴上。
+（到底是谁？本小姐最讨厌欠别人人情了。）
+@goto view_rin_d4_c
+== view_rin_d4_c
+@sfx electric
+手机亮了。父亲：「乐队的事，我已经让秘书去和学校谈了。」
+@choice
+* 回复：「我会自己决定。」 -> view_rin_d4_x
+* 不回复。把手机扣在琴盖上 -> view_rin_d4_y
+== view_rin_d4_x
+发送。屏幕上的「已读」两个字跳出来的时候，我的心跳快得像在弹急板。
+……他没有回。
+可是我第一次觉得，手机那头的那个人，没有那么大了。
+@set rin_replied
+@eff SAN-2 POW+2
+@end
+== view_rin_d4_y
+我把手机扣过去，掀开琴盖，弹完了一整首练习曲。
+一个音都没有错。可是我自己知道，那首曲子里一个「我」都没有。
+@eff SAN+1
+@end
+
+== view_rin_d5
+@bg classroom_day
+@bgm mystery
+食堂的草莓牛奶，喝起来像温水。
+@if check:rin_d4 -> view_rin_d5_a
+@goto view_rin_d5_b
+== view_rin_d5_a
+@if flag:st_ground -> view_rin_d5_g
+昨天我把那张电网吸进身体里，又硬生生地放了出去。现在想起来，手还是在抖。
+@goto view_rin_d5_c
+== view_rin_d5_g
+昨天我把电流导进了大地。我没有和它硬碰，只是给它找了一条路。
+（原来，力量不一定要用来对抗。）
+@eff SAN+2
+@goto view_rin_d5_c
+== view_rin_d5_b
+（昨天电流打进脑子里的那一刻，我听见了一个女孩在哭。）
+（那个声音……很熟悉。像是每天放学时，在广播里说「路上小心」的那个声音。）
+@eff INT+1
+@goto view_rin_d5_c
+== view_rin_d5_c
+@if bonds>=1 -> view_rin_d5_f
+@goto view_rin_d5_n
+== view_rin_d5_f
+「凛。」有人在我身边坐下，「你今天要去变电站吧？」
+我：……你怎么知道。
+「猜的。早点回来。乐队还等着你。」
+（……本小姐，好像有了一个不得不回来的理由。）
+@eff SAN+4
+@end
+== view_rin_d5_n
+我一个人坐在窗边。窗外的天空，像一块洗褪了色的蓝布。
+（今天，大概会很长。）
+@end
+
+== view_rin_d6
+@bg music_room
+@bgm mystery
+胸口的蓝宝石胸针里，封着一道细细的闪电。它随着我的心跳，一亮一暗。
+@if flag:rin_replied -> view_rin_d6_r
+@goto view_rin_d6_b
+== view_rin_d6_r
+手机里还躺着那条「我会自己决定」。父亲一直没有回。
+（没关系。我已经决定了。）
+@goto view_rin_d6_b
+== view_rin_d6_b
+@if dead_n>=1 -> view_rin_d6_loss
+@goto view_rin_d6_c
+== view_rin_d6_loss
+早上，有人说昨晚又有人「不见了」。
+我在钢琴前坐下，弹了一首安魂曲。弹到一半，弹不下去了。
+@eff SAN-3
+@goto view_rin_d6_c
+== view_rin_d6_c
+@sfx glitch
+午后，广播里传出了那个女孩的哭声。全校的人都捂住了耳朵。
+只有我，听得清清楚楚——那个声音，和我昨天在电流里听到的，是同一个人。
+@end
+
+== view_rin_d7
+@bg festival
+@bgm festival
+后台。乐队的大家都在调音，鼓手紧张得一直在喝水。
+@if flag:rin_keep_form -> view_rin_d7_form
+@goto view_rin_d7_b
+== view_rin_d7_form
+我从乐谱里抽出那张折了四折的报名表。纸已经皱了，我的名字还在。
+（第一天没有撕掉它，真是太好了。）
+@goto view_rin_d7_b
+== view_rin_d7_b
+@if skill:band -> view_rin_d7_s
+@goto view_rin_d7_e
+== view_rin_d7_s
+「凛，开场的前奏，交给你了！」
+我坐到钢琴前。这几天排练过的每一个小节，都在指尖等着我。
+@goto view_rin_d7_e
+== view_rin_d7_e
+（父亲，你看着吧。或者不看也没关系。）
+（今天，本小姐只为自己弹。）
+@end

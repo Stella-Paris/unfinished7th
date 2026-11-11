@@ -51,6 +51,13 @@
       toast(`特训 · ${ev.name}：${fxText(ev.fx)}${why ? `<br><small>${why}</small>` : ""}`, bad ? "red" : ev.kind === "encounter" || ev.outcome === "resolved" ? "gold" : "");
     }
     if (ev.type === "skill") { toast(`♪ 羁绊技能解锁【${ev.name}】`, "gold"); sfx("confirm"); }
+    if (ev.type === "bond" && G.run) {
+      const c = charOf(ev.g);
+      if (ev.up) { toast(`♥ 与${c.name}的羁绊 → <b>${C.balance.bond.names[ev.lv]}</b>${ev.lv >= 2 ? "<br><small>黄昏时可以赴约了</small>" : ""}`, "gold"); sfx("success"); }
+      else if (ui.screen === "scr-game") toast(`<small>♥ ${c.name} 羁绊 +${ev.n}</small>`, "pink");
+    }
+    if (ev.type === "rank") toast(`<small>▲ ${STAT_CN[ev.stat]} 晋升至</small> <b>${ev.rank}</b> <small>级</small>`);
+    if (ev.type === "awaken") { setTimeout(() => toast(`✦ 异能${ev.lv === 2 ? "二阶" : ""}觉醒【${ev.name}】${ev.lv === 2 ? "<br><small>Day5 起本人危机判定 +" + C.balance.growth.check_bonus + "</small>" : ""}`, "gold"), 300); sfx("insight"); }
   });
 
   /* ---------------- 标题 ---------------- */
@@ -69,6 +76,17 @@
   });
 
   /* ---------------- 观测空间 ---------------- */
+  function echoHearts(g) {   // 灵魂残响：历史最高羁绊（下周目会继承一部分）
+    const BB = C.balance.bond, p = (G.meta.bondMax || {})[g] || 0;
+    if (!p) return "";
+    const lv = BB.levels.filter((t) => p >= t).length;
+    return `<div class="echo" title="灵魂残响：历史最高羁绊「${BB.names[lv]}」。投影其他少女时，她会隐约记得你（初始羁绊 +${Math.floor(p * BB.memory_ratio)}）">${"♥".repeat(lv)}${"♡".repeat(3 - lv)}</div>`;
+  }
+  function bondPips(g) {
+    const b = G.bondInfo(g), BB = C.balance.bond;
+    const frac = b.next ? (b.pts - b.prev) / (b.next - b.prev) : 1;
+    return `<span class="pips">${[1, 2, 3].map((i) => `<i class="${b.lv >= i ? "on" : b.lv + 1 === i ? "part" : ""}" style="${b.lv + 1 === i ? `--f:${Math.round(frac * 100)}%` : ""}"></i>`).join("")}</span>`;
+  }
   function enterHub() {
     show("scr-hub"); Audio7.bgm("void");
     if (G.run) { // 存在未完成的周目
@@ -86,6 +104,7 @@
         <div class="pic" style="background-image:url(assets/${c.sprite})"></div>
         ${relic ? `<div class="relic-ic" style="background-image:url(${itemIcon(c.relic)})"></div>` : ""}
         ${cleared ? `<div class="badge">已救赎 ×${cleared}</div>` : ""}
+        ${echoHearts(g)}
         <div class="info"><b>${c.full}</b><small>${c.grade} · ${c.ability}</small><p>${c.tag}</p></div></div>`;
     });
     const un = G.loop7Unlocked(), h = charOf("hero");
@@ -288,7 +307,13 @@
     }).join("");
     const B = C.balance.burn_san;
     const notes = [];
-    if (v.bonus) notes.push(`抉择与羁绊修正：<b>${v.bonus > 0 ? "+" : ""}${v.bonus}</b>（已计入）`);
+    if (v.bonus) {
+      const parts = [];
+      if (v.stanceBonus) parts.push(`抉择 ${v.stanceBonus > 0 ? "+" : ""}${v.stanceBonus}`);
+      if (v.support && v.support.n) parts.push(`同伴支援 +${v.support.n}（${v.support.girls.map((g) => charOf(g).name).join("、")}）`);
+      if (v.awaken) parts.push(`异能觉醒 +${v.awaken}`);
+      notes.push(`修正合计：<b>${v.bonus > 0 ? "+" : ""}${v.bonus}</b>（已计入）${parts.length ? "<br><small>" + parts.join("　·　") + "</small>" : ""}`);
+    }
     if (!v.reveal && v.id !== "final") notes.push("观测深度不足 30，无法看清危机的全貌……");
     if (v.reveal && !v.pass) notes.push("<b>直觉在尖叫：现在的你，跨不过去。</b>");
     if (v.id === "final") notes.push(`仍在你身后的同伴：<b>${v.rows.length ? G.checkSpec("final").allies : 0}</b> 人（每人降低需求 ${C.balance.final_check.ally_reduction}）`);
@@ -330,17 +355,19 @@
       if (o.kind === "class") return `<button class="pcard" data-i="${i}"><span class="ic">${o.icon}</span><b>${o.name}</b><p>${o.desc}</p><span class="fxs">${o.stat} ↑${C.balance.class_san_cost[o.stat] ? ` · SAN −${C.balance.class_san_cost[o.stat]}` : ""}</span></button>`;
       if (o.kind === "activity") return `<button class="pcard ${o.done ? "done" : ""} ${o.closed ? "closed" : ""}" data-i="${i}"><span class="ic">${o.icon}</span><b>${o.name}</b>
         <p>${o.closed ? "负责人已不在了……项目关闭。" : o.done ? "今天已经排练过了。" : `羁绊技能【${o.skill}】`}</p>
-        <span class="fxs">${fxText(o.fx)}</span><div class="prog"><i style="width:${Math.min(100, (o.count / o.need) * 100)}%"></i></div>
+        <span class="fxs">${fxText(o.fx)}${o.owner && o.owner !== G.run.route && !o.closed ? ` · ♥${charOf(o.owner).name}` : ""}</span><div class="prog"><i style="width:${Math.min(100, (o.count / o.need) * 100)}%"></i></div>
         <p>排练 ${Math.min(o.count, o.need)}/${o.need}${o.count >= o.need ? " ✓ 已解锁" : ""}</p></button>`;
       if (o.kind === "explore") {
         if (o.rest) return `<button class="pcard rest" data-i="${i}"><span class="ic">${o.icon}</span><b>${o.name}</b><p>什么都不做，好好睡一觉。</p><span class="fxs">SAN +${C.balance.rest_san}</span></button>`;
         const p = o.preview;
         const train = p.stats.map((k) => `${k} ↑`).join(" ") + (p.san > 0 ? ` · SAN −${p.san}` : p.san < 0 ? ` · SAN +${-p.san}` : "");
+        const regs = (p.regulars || []).map((g) => `<i style="background-image:url(assets/${charOf(g).sprite})" title="${charOf(g).name}常来这里"></i>`).join("");
         const area = p.nextArea ? `<em class="new-area">新区域：${p.nextArea}</em>` : `已探明 ${p.unlocked}/${p.areas} 区`;
         const hint = o.clue ? (o.newInsight ? "这里有尚未观测到的东西……" : "这里似乎有什么，但你已经见过了。") : p.resolved ? "异常已平息，特训时心更静了。" : p.san < 0 ? "适合疗养的地方。" : "特训 · 可能遭遇异常，或偶遇谁。";
         return `<button class="pcard" data-i="${i}">${o.clue ? `<span class="mark ${o.newInsight ? "new" : ""}">!</span>` : ""}<span class="ic">${o.icon}</span><b>${o.name}</b>
-          <p class="area">${area}</p><p>${hint}</p><span class="fxs ${p.resolved ? "calm" : ""}">${train}</span></button>`;
+          <p class="area">${area}</p><p>${hint}</p>${regs ? `<div class="regs">${regs}</div>` : ""}<span class="fxs ${p.resolved ? "calm" : ""}">${train}</span></button>`;
       }
+      if (o.kind === "bond") return `<button class="pcard bond" data-i="${i}"><span class="ic face" style="background-image:url(assets/${charOf(o.owner).sprite})"></span><b>${o.name}</b><p>羁绊「${C.balance.bond.names[o.lv]}」· ${o.lv === 3 ? "她似乎有很重要的话想对你说。" : "她在等你。"}</p><span class="fxs">SAN +${C.balance.bond.event_san} · ${o.sig} +${C.balance.bond.event_stat}</span></button>`;
       if (o.kind === "deliver") return `<button class="pcard deliver" data-i="${i}"><span class="ic">✧</span><b>${o.name}</b><p>前往【${C.explore.locations[o.loc].name}】交给 ${charOf(o.owner).full}。期限：Day ${o.deadline} 黄昏。</p></button>`;
     });
     const pc = $("#phase-cards"); pc.className = "phase-cards" + (v.options.length > 6 ? " many" : "");
@@ -366,7 +393,10 @@
     $("#sum-title").textContent = `Day ${v.day} 结束`;
     const agg = {};
     for (const x of v.log) agg[x.stat] = (agg[x.stat] || 0) + x.d;
+    for (const k in agg) if (!agg[k]) delete agg[k];
     let h = "<h4>今日成长</h4>" + (Object.keys(agg).length ? Object.entries(agg).map(([k, d]) => `<span class="chg ${d > 0 ? "up" : "dn"}">${k} ${d > 0 ? "+" : ""}${d}</span>`).join("") : "<p>平静的一天。</p>");
+    const db = G.run.dayBond || {};
+    if (Object.keys(db).length) h += "<h4>今日羁绊</h4>" + Object.entries(db).map(([g, n]) => `<span class="chg bond">${charOf(g).name} ♥+${n} · ${G.bondInfo(g).name}</span>`).join("");
     if (v.news.length) h += "<h4>校园传闻</h4>" + v.news.map((n) => `<p>${n}</p>`).join("");
     if (G.run.injury) h += `<h4>负伤</h4><p>身体还没恢复，明天上午的行动力 −${C.balance.injury.ap_penalty}。</p>`;
     h += `<h4>明日</h4><p>清晨将恢复 SAN +${C.balance.san.daily_regen}；${v.day < 7 ? `Day ${v.day + 1}【${C.world.macro[v.day + 1].title}】` : ""}</p>`;
@@ -406,6 +436,7 @@
     for (const k of ["INT", "CON", "POW", "SAN"]) {
       const el = $(`.stat[data-k=${k}]`), v = r.stats[k];
       el.querySelector("b").textContent = v; el.querySelector("i").style.width = Math.min(100, v) + "%";
+      if (k !== "SAN") { let rk = el.querySelector(".rk"); if (!rk) { rk = document.createElement("em"); rk.className = "rk"; el.querySelector("label").appendChild(rk); } const R = G.rank(v); rk.textContent = R; rk.dataset.r = R; }
       if (ui.lastStats && ui.lastStats[k] !== v) { el.classList.remove("bump", "drop"); void el.offsetWidth; el.classList.add(v > ui.lastStats[k] ? "bump" : "drop"); }
     }
     ui.lastStats = { ...r.stats };
@@ -417,7 +448,7 @@
     $("#hud-ins").textContent = G.insight;
     const B = C.balance.insight;
     $("#hud-ins-tier").textContent = G.insight >= B.true_end_at ? "真相之门" : G.insight >= B.transfer_at ? "因果转译" : G.insight >= B.intuition_at ? "直觉警示" : "";
-    $("#hud-npc").innerHTML = Object.entries(r.npc).map(([g, n]) => `<div class="${n.alive ? "" : "dead"} ${n.aided ? "aided" : ""}" title="${charOf(g).full}${n.alive ? "" : "（已故）"}${n.aided ? " · 已交付干涉道具" : ""}" style="background-image:url(assets/${charOf(g).sprite})"></div>`).join("");
+    $("#hud-npc").innerHTML = Object.entries(r.npc).map(([g, n]) => { const b = G.bondInfo(g); return `<div class="npc ${n.alive ? "" : "dead"} ${n.aided ? "aided" : ""}" title="${charOf(g).full}${n.alive ? ` · 羁绊「${b.name}」${b.next ? `（${b.pts}/${b.next}）` : ""}` : "（已故）"}${n.aided ? " · 已交付干涉道具" : ""}"><div class="face" style="background-image:url(assets/${charOf(g).sprite})"></div>${n.alive ? bondPips(g) : ""}</div>`; }).join("");
   }
 
   /* ---------------- 浮层 / 菜单 ---------------- */

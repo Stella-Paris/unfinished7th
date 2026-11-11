@@ -213,6 +213,67 @@
 @end
 
 == route_end_common
+// 告别：这一周目里与你结下羁绊(信赖以上)、并且还活着的人，会在最后来送你
+@if bonds>=1 -> fw_open
+@goto fw_white
+== fw_open
+@bgm sad
+光芒落下来之前，我听见了脚步声。
+@goto fw_rina
+== fw_rina
+@if bondlv_rina>=2 -> fw_rina_y
+@goto fw_tsukasa
+== fw_rina_y
+@show rina center
+莉奈：喂——！别一个人走啊！说好了要来咖啡厅的！
+莉奈：……算了。下次。下次一定要来哦。我会一直开着门的。
+@hide rina
+@goto fw_tsukasa
+== fw_tsukasa
+@if bondlv_tsukasa>=2 -> fw_tsukasa_y
+@goto fw_rin
+== fw_tsukasa_y
+@show tsukasa center
+司：……这次，我来送你。
+她什么都没多说，只是把手放在我的肩上。很重，又很轻。
+@hide tsukasa
+@goto fw_rin
+== fw_rin
+@if bondlv_rin>=2 -> fw_rin_y
+@goto fw_saki
+== fw_rin_y
+@show rin center
+凛：本小姐的演出，你还没听完呢。……下次，给我站在第一排。
+@hide rin
+@goto fw_saki
+== fw_saki
+@if bondlv_saki>=2 -> fw_saki_y
+@goto fw_yune
+== fw_saki_y
+@show saki center
+咲：给你！向日葵的种子！……下次见面的时候，我们一起种吧！
+她在哭，可是她在笑。不是修补出来的那种笑。
+@hide saki
+@goto fw_yune
+== fw_yune
+@if bondlv_yune>=2 -> fw_yune_y
+@goto fw_chiyo
+== fw_yune_y
+@show yune center
+云音：我读不到你的心。……可是我知道，你会回来的。
+云音：明天见。
+@hide yune
+@goto fw_chiyo
+== fw_chiyo
+@if bondlv_chiyo>=2 -> fw_chiyo_y
+@goto fw_white
+== fw_chiyo_y
+@show chiyo center
+千夜：你下次出现的概率，我算过了。……100%。这次，不允许有误差。
+@hide chiyo
+@goto fw_white
+== fw_white
+@hide all
 @bg white_out
 @bgm sad
 @sfx firework

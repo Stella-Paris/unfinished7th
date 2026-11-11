@@ -121,6 +121,12 @@
         const safe = (o) => san - cost(o) >= need;
         const fresh = locs.filter((o) => o.newInsight && safe(o));   // 金色「!」：界面可见
         if (fresh.length && (this.p === "planner" || this.r() < 0.6)) return this.pick(fresh);
+        const bond = opts.find((o) => o.kind === "bond");   // 约定：界面可见（SAN 与属性收益都写在卡片上）
+        if (bond) {
+          const lowSan = san < need + 15;
+          const p = this.p === "planner" ? (lowSan || def[bond.sig] > 0 ? 1 : 0.5) : blind ? 0.7 : 0.6;
+          if (this.r() < p) return bond;
+        }
         const safeLocs = locs.filter(safe);
         if (san < need || !safeLocs.length) {
           // 理智吃紧：休息或去疗养型地点

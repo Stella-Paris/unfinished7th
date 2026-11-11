@@ -145,7 +145,7 @@
 == yune_d5_c
 @check yune_d5 ok=yune_d5_ok ng=yune_d5_ng
 
-== yune_d5_ok
+== yune_d5_ok_main
 @fx flash
 我不再挣扎，也不再「安抚」。
 我只是把自己的心，第一次，毫无保留地打开给他们看。
@@ -187,7 +187,7 @@
 可是它被包裹得太紧，我看不清它的脸。
 @end
 
-== yune_d7
+== yune_d7_main
 @bg festival_night
 @bgm hope
 17:49。湮灭的法则从天空落下，开始抹杀这个世界里的一切。
@@ -201,3 +201,196 @@
 我轻轻地笑了。……真好。原来被这么多人记住，是这种感觉。
 @cg off
 @goto route_end_common
+
+// ============ 云音视角 · 每日晨间 ============
+
+== view_yune_d1
+@bg auditorium
+@bgm daily
+早会。一千多个人的心声像潮水一样涌过来。
+「好困」「文化祭好麻烦」「那个人今天好帅」「午饭吃什么」……
+我把它们调成背景音，就像在咖啡馆里听别人聊天。
+@sfx electric
+台侧的麦克风炸出一声电流。二年级的有栖川同学心里在尖叫：「不要看我，不要看我，不要看我——」
+三年级的桐谷同学笑得最大声。可她的心里，是一间空荡荡的教室。
+@if relics>=1 -> view_yune_d1_echo
+@goto view_yune_d1_c
+== view_yune_d1_echo
+@fx glitch
+在千人的心声里，有一个声音不属于这里。它很安静，像一根红线，轻轻缠在我的手腕上。
+（……你是谁？）
+没有回答。
+@goto view_yune_d1_c
+== view_yune_d1_c
+散会时，桐谷莉奈朝我走过来。她心里在想：「学姐好像很孤单，要不要去搭话呢……」
+@choice
+* 先一步微笑着迎上去 -> view_yune_d1_x
+* 装作没注意到，转身离开 -> view_yune_d1_y
+== view_yune_d1_x
+@show rina center
+莉奈：学姐早～！一个人吗？要不要一起走？
+我：早上好。你是桐谷同学吧，三年A班的太阳。
+我：……太阳也会累的哦。
+她愣住了。那间空荡荡的教室里，好像有一扇窗户被推开了一条缝。
+@bond rina 2
+@end
+== view_yune_d1_y
+我转身走进人群。身后，她的心声停顿了一下，然后被「算了」两个字盖住。
+（一直是这样的。我知道所有人想要什么，所以我也知道，怎么避开所有人。）
+@eff INT+1 SAN-1
+@end
+
+== view_yune_d2
+@bg gym
+@bgm daily
+@if check:yune_d1 -> view_yune_d2_a
+@goto view_yune_d2_b
+== view_yune_d2_a
+（「愿意为一段关系难过的人，从来都不差劲。」）
+昨天对那个女孩说的话，今天早上想起来，好像也是在说给我自己听。
+@goto view_yune_d2_c
+== view_yune_d2_b
+手机还是静音。昨晚有十七条未读消息，全都是来找我倾诉的。
+我一条都不想点开。
+@eff SAN-2
+@goto view_yune_d2_c
+== view_yune_d2_c
+体能普测。我的体质测试成绩，是全年级倒数。
+@show koharu center
+小春：云音学姐，你、你的脸色好白……要不要坐一下？
+她心里在想：「学姐好漂亮……好想和学姐说话……可是好紧张……」
+我：谢谢你，小春。陪我坐一会儿好吗？
+小春：诶！好、好的！
+@hide koharu
+（读心的坏处，是知道每一份好意的来处。好处……也是。）
+@eff SAN+2
+@end
+
+== view_yune_d3
+@bg library
+@bgm tension
+@if check:yune_d2 -> view_yune_d3_a
+@goto view_yune_d3_b
+== view_yune_d3_a
+（全校学生的记忆，都在同一个地方被剪断了。）
+我翻开笔记本，写下昨天看到的东西：马赛克的边缘太整齐，像是被剪辑过的胶片。
+……然后，我犹豫了很久，写下了另一行字：「我自己的记忆呢？」
+@goto view_yune_d3_c
+== view_yune_d3_b
+我试着回想上海的家。弄堂口的梧桐、外婆的红烧肉、梅雨季节湿漉漉的窗台。
+想起来了。全都想起来了。
+……可它们清晰得太完美了，像一张明信片。
+@eff SAN-3
+@goto view_yune_d3_c
+== view_yune_d3_c
+@show chiyo center
+一年级的白羽千夜坐到了我对面。她心里是密密麻麻的数字，像一场下不完的雨。
+千夜：暮学姐。你能读心，对吧？……我有个问题想请你验证。
+千夜：你能读到「未来」吗？哪怕一点点。
+我：……为什么这么问？
+千夜：因为我算出来的未来，是零。
+@choice
+* 握住她的手，认真读一读她的心 -> view_yune_d3_x
+* 「我读不到未来。可我知道你现在很害怕。」 -> view_yune_d3_y
+== view_yune_d3_x
+我握住她冰凉的手。数字的雨后面，是一个很小很小的女孩，抱着膝盖在算一道永远算不完的题。
+我：千夜。你已经很努力了。
+她猛地抽回手，耳朵红透了。
+@bond chiyo 2
+@eff INT+1
+@end
+== view_yune_d3_y
+千夜愣了一下，然后很小声地说：「……嗯。」
+那是她今天心里，唯一一个不是数字的字。
+@bond chiyo 1
+@eff SAN+2
+@end
+
+== view_yune_d4
+@bg tea_room
+@bgm tension
+@if check:yune_d3 -> view_yune_d4_a
+@goto view_yune_d4_b
+== view_yune_d4_a
+@if flag:st_filter -> view_yune_d4_f
+昨天，我替他们接下了那份死寂。到现在，胸口还是凉的。
+@goto view_yune_d4_c
+== view_yune_d4_f
+昨天我筑了一道滤网，没有让那份死寂流进来。太阳穴还在疼，但我还是我。
+@eff SAN+2
+@goto view_yune_d4_c
+== view_yune_d4_b
+从昨天下午开始，别人的声音都像隔着一层水。
+我泡了一壶很浓的茶，想让自己暖和起来。没用。
+@eff SAN-2
+@goto view_yune_d4_c
+== view_yune_d4_c
+占卜屋的布置做到一半，有栖川凛推门进来。
+@show rin center
+凛：……听说你很准。帮本小姐算一下。
+她心里只有两个字，反反复复：「父亲」「父亲」「父亲」。
+我：你想问的，不是未来。是你可不可以，不做他的女儿也没关系。
+凛：……！
+她的脸一下子红了，然后转身就走。到门口，又停下来：「……谢谢。」
+@bond rin 2
+@end
+
+== view_yune_d5
+@bg library
+@bgm mystery
+@if check:yune_d4 -> view_yune_d5_a
+@goto view_yune_d5_b
+== view_yune_d5_a
+（昨天，我记住了那个意志的气味。悲伤、愧疚，像一封没寄出去的信。）
+（它离我们很近。也许，每天都和我们擦肩而过。）
+@goto view_yune_d5_c
+== view_yune_d5_b
+早上醒来，我花了好几秒钟才想起自己的名字。
+暮云音。暮云音。……对，是我。
+@eff SAN-3
+@goto view_yune_d5_c
+== view_yune_d5_c
+食堂的饭没有味道。可是比起这个，更可怕的是——所有人的心声，都变得很小、很远。
+像一盏一盏，快要熄灭的灯。
+@if bonds>=1 -> view_yune_d5_f
+@end
+== view_yune_d5_f
+有人在我对面坐下。她的心声很吵，吵得很温暖：「学姐今天好像很难受，我要陪着她，就算她赶我走也要陪着。」
+（……笨蛋。我听得见的。）
+我没有赶她走。
+@eff SAN+4
+@end
+
+== view_yune_d6
+@bg rooftop_dusk
+@bgm mystery
+我翻开那本褪色的日记。第一页，我写下了一行字：「我也很孤独。」
+写完以后，好像有什么东西从肩膀上卸了下来。
+@if dead_n>=1 -> view_yune_d6_loss
+@goto view_yune_d6_b
+== view_yune_d6_loss
+千人的心声里，少了一个声音。我找了很久，找不到。
+（我曾经觉得她们都很吵。现在，我愿意用一切换那一声吵闹回来。）
+@eff SAN-3
+@goto view_yune_d6_b
+== view_yune_d6_b
+@sfx glitch
+午后，广播里传出了一个女孩的哭声。
+别人只听见哭声。我听见的，是哭声底下的那句话：「对不起，大家，对不起……」
+（就是她。昨天那颗悲伤的心。）
+@end
+
+== view_yune_d7
+@bg tea_room
+@bgm festival
+占卜屋的门口排起了长队。我披着纱巾，替一个又一个人看手相。
+@if skill:fortune -> view_yune_d7_s
+@goto view_yune_d7_b
+== view_yune_d7_s
+签筒里，有一支签是我昨晚偷偷放进去的。上面写着：『第八日 · 大吉』。
+（如果真的有第八日……我想带谁回上海看看。）
+@goto view_yune_d7_b
+== view_yune_d7_b
+今天的心声，比任何一天都响亮。所有人都在拼命地笑、拼命地记住。
+我第一次没有把它们调成背景音。我听完了每一个。
+@end

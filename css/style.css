@@ -158,10 +158,11 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
 .hud-ins b { font-family: var(--serif); font-size: 20px; color: #dff3ff; }
 .hud-ins span { font-size: 11px; color: var(--mute); }
 .hud-npc { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
-.hud-npc div { width: 34px; height: 34px; border-radius: 50%; background-size: 220%; background-position: 50% 4%; border: 1px solid rgba(255, 255, 255, .25); position: relative; }
-.hud-npc div.dead { filter: grayscale(1) brightness(.4); border-color: #600; }
-.hud-npc div.dead::after { content: "✕"; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--red2); font-weight: bold; }
-.hud-npc div.aided { border-color: var(--ice); box-shadow: 0 0 8px var(--ice); }
+.hud-npc .npc { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.hud-npc .face { width: 34px; height: 34px; border-radius: 50%; background-size: 220%; background-position: 50% 4%; border: 1px solid rgba(255, 255, 255, .25); position: relative; }
+.hud-npc .npc.dead .face { filter: grayscale(1) brightness(.4); border-color: #600; }
+.hud-npc .npc.dead .face::after { content: "✕"; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--red2); font-weight: bold; }
+.hud-npc .npc.aided .face { border-color: var(--ice); box-shadow: 0 0 8px var(--ice); }
 
 /* 行动阶段 */
 .phase { position: absolute; left: 300px; right: 30px; top: 86px; bottom: 30px; display: flex; flex-direction: column; z-index: 10; animation: rise .5s; }
@@ -280,3 +281,21 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
 .pcard .area { color: #c8d2f0; }
 .pcard .new-area { font-style: normal; color: var(--ice); }
 .pcard .fxs.calm { color: #8fe0b0; }
+
+/* ---------- 羁绊 / 成长 ---------- */
+.pips { display: flex; gap: 2px; }
+.pips i { width: 9px; height: 4px; background: rgba(255, 255, 255, .15); border-radius: 2px; overflow: hidden; position: relative; }
+.pips i.on { background: #ff8fb0; box-shadow: 0 0 4px #ff8fb0; }
+.pips i.part::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: var(--f, 0%); background: rgba(255, 143, 176, .55); }
+.stat label .rk { font-style: normal; margin-left: 8px; font-family: var(--serif); font-size: 12px; color: var(--mute); letter-spacing: 0; }
+.stat label .rk[data-r=C] { color: #9fd0ff; } .stat label .rk[data-r=B] { color: #8fe0b0; }
+.stat label .rk[data-r=A] { color: var(--gold2); } .stat label .rk[data-r=S] { color: #ff8fb0; text-shadow: 0 0 6px #ff8fb0; }
+.toast.pink { border-color: #ff8fb0; color: #ffd0de; padding: 8px 16px; font-size: 13px; }
+.pcard.bond { border-color: #ff8fb0; background: rgba(70, 20, 45, .78); }
+.pcard.bond:hover { box-shadow: 0 10px 30px -12px #ff8fb0; }
+.pcard.bond b { color: #ffd0de; }
+.pcard .ic.face { width: 40px; height: 40px; border-radius: 50%; background-size: 220%; background-position: 50% 4%; border: 1px solid #ff8fb0; }
+.pcard .regs { display: flex; gap: 4px; }
+.pcard .regs i { width: 20px; height: 20px; border-radius: 50%; background-size: 220%; background-position: 50% 4%; border: 1px solid rgba(255, 143, 176, .6); }
+.chg.bond { color: #ffd0de; border-color: #ff8fb0; }
+.gcard .echo { position: absolute; top: 44px; right: 12px; z-index: 2; font-size: 13px; color: #ff8fb0; letter-spacing: .15em; text-shadow: 0 0 6px rgba(255, 143, 176, .6); }

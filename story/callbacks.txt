@@ -1,0 +1,127 @@
+// ============ 角色线呼应：Day5 生还 / Day7 终章（根据羁绊、觉醒、先前的抉择变化） ============
+
+== rina_d5_ok
+@if bonds>=1 -> rina_d5_ok_bond
+@goto rina_d5_ok_main
+== rina_d5_ok_bond
+风暴的缝隙里，我看见了这几天黄昏一直陪在我身边的那个人。她在喊我，喊得比谁都大声。
+@eff SAN+3
+@goto rina_d5_ok_main
+
+== rina_d7
+@if growth:2 -> rina_d7_aw
+@goto rina_d7_st
+== rina_d7_aw
+（无限门扉。觉醒的那一天我就在想，这扇门，要留给最重要的人。）
+@goto rina_d7_st
+== rina_d7_st
+@if flag:st_names -> rina_d7_st_y
+@goto rina_d7_main
+== rina_d7_st_y
+我在心里，最后一次把大家的名字念了一遍。美羽、小春、班长……一个都没有忘。
+@goto rina_d7_main
+
+== tsukasa_d5_ok
+@if bonds>=1 -> tsukasa_d5_ok_bond
+@goto tsukasa_d5_ok_main
+== tsukasa_d5_ok_bond
+体育馆的门被撞开之前，我先听见了一个熟悉的脚步声——这几天，总在黄昏陪着我的那个人。
+@eff SAN+3
+@goto tsukasa_d5_ok_main
+
+== tsukasa_d7
+@if growth:2 -> tsukasa_d7_aw
+@goto tsukasa_d7_st
+== tsukasa_d7_aw
+（斥力天幕。那天在操场上觉醒的力量，原来是一把伞。今天，它要撑住整栋楼。）
+@goto tsukasa_d7_st
+== tsukasa_d7_st
+@if flag:st_breathe -> tsukasa_d7_st_y
+@goto tsukasa_d7_main
+== tsukasa_d7_st_y
+我闭上眼，像停电那天一样，顺着天空落下来的节奏呼吸。不对抗，只是承接。
+@goto tsukasa_d7_main
+
+== rin_d5_ok
+@if bonds>=1 -> rin_d5_ok_bond
+@goto rin_d5_ok_main
+== rin_d5_ok_bond
+电弧的轰鸣里，我想起了这几天和我约定过的那个人。……本小姐，还有约没赴。
+@eff SAN+3
+@goto rin_d5_ok_main
+
+== rin_d7
+@if growth:2 -> rin_d7_aw
+@goto rin_d7_st
+== rin_d7_aw
+（万伏独奏。雷霆不是用来控制的，是用来对话的。今天，我们一起唱最后一曲。）
+@goto rin_d7_st
+== rin_d7_st
+@if flag:rin_replied -> rin_d7_st_y
+@goto rin_d7_main
+== rin_d7_st_y
+手机里那条「我会自己决定」，父亲始终没有回。没关系。我已经决定了。
+@goto rin_d7_main
+
+== saki_d5_ok
+@if bonds>=1 -> saki_d5_ok_bond
+@goto saki_d5_ok_main
+== saki_d5_ok_bond
+晶体爬上脖子的时候，我想起了这几天陪着我的那个人。她说过：咲，不用一直有用也没关系。
+@eff SAN+3
+@goto saki_d5_ok_main
+
+== saki_d7
+@if growth:2 -> saki_d7_aw
+@goto saki_d7_st
+== saki_d7_aw
+（创生之手。我不只会修补。今天，我要「造」一条路出来。）
+@goto saki_d7_st
+== saki_d7_st
+@if flag:st_accept -> saki_d7_st_y
+@goto saki_d7_main
+== saki_d7_st_y
+书包里的八音盒很安静。奶奶，就算它不唱歌了，我也一直记得那首歌哦。
+@goto saki_d7_main
+
+== yune_d5_ok
+@if bonds>=1 -> yune_d5_ok_bond
+@goto yune_d5_ok_main
+== yune_d5_ok_bond
+黑潮里，有一只手和别的都不一样。它不是在拖我下去，是在拉我上来。是这几天，一直坐在我对面的那个人。
+@eff SAN+3
+@goto yune_d5_ok_main
+
+== yune_d7
+@if growth:2 -> yune_d7_aw
+@goto yune_d7_st
+== yune_d7_aw
+（心之信标。那天我第一次把自己的心声发出去，有那么多人回应了我。）
+@goto yune_d7_st
+== yune_d7_st
+@if flag:st_heard -> yune_d7_st_y
+@goto yune_d7_main
+== yune_d7_st_y
+日记本的第一页写着：「我也很孤独。」现在我想在下面再写一行：「但我不再是一个人了。」
+@goto yune_d7_main
+
+== chiyo_d5_ok
+@if bonds>=1 -> chiyo_d5_ok_bond
+@goto chiyo_d5_ok_main
+== chiyo_d5_ok_bond
+在方程的最后一行，我写下了一个名字。这几天，一直在我身边、让我算不清楚的那个人。
+@eff SAN+3
+@goto chiyo_d5_ok_main
+
+== chiyo_d7
+@if growth:2 -> chiyo_d7_aw
+@goto chiyo_d7_st
+== chiyo_d7_aw
+（奇迹演算。觉醒那天，硬币落地是正面。今天，我把「相信」写进最后一个方程。）
+@goto chiyo_d7_st
+== chiyo_d7_st
+@if flag:st_unknown -> chiyo_d7_st_y
+@goto chiyo_d7_main
+== chiyo_d7_st_y
+停电那天，我用手摸着墙往前走。今天也一样——不靠公式，靠我自己的眼睛。
+@goto chiyo_d7_main

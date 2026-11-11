@@ -181,7 +181,7 @@
 == rina_d5_c
 @check rina_d5 ok=rina_d5_ok ng=rina_d5_ng
 
-== rina_d5_ok
+== rina_d5_ok_main
 @fx flash
 我在风暴里转过身。
 美羽、小春、还有班上那些我叫不全名字的人——他们站在校门内侧，拼命地朝我挥手。原来他们不是看不见我，是被雾挡住了视线。
@@ -225,7 +225,7 @@
 也许是天台。也许是更高的地方。
 @end
 
-== rina_d7
+== rina_d7_main
 @bg rooftop_night
 @bgm hope
 17:40。文化祭的喧嚣在楼下像潮水一样起伏。
@@ -243,3 +243,244 @@
 我：下次……要记得来找我玩哦。
 @cg off
 @goto route_end_common
+
+// ============ 莉奈视角 · 每日晨间（宏观事件之后播放） ============
+// 呼应：前一天危机的成败(check:)、抉择(flag:st_)、羁绊(bondlv_)、往周目(cleared:/relics)
+
+== view_rina_d1
+@bg auditorium
+@show miu left
+美羽：Riri、Riri，你看台上的神代老师，领带又歪了～
+我：真的诶！要不要我瞬移过去帮他扶正？
+美羽：不要啦哈哈哈哈！
+我们笑成一团，前排的人回头瞪了一眼。我冲他眨眨眼，他红着脸转回去了。
+@hide miu
+@sfx electric
+台侧的麦克风突然「滋啦」地爆出一声电流。二年级那边，有栖川家的大小姐皱着眉，指尖像是闪了一下蓝光。
+另一边，黑濑司被一群一年级女生围着，表情像一块被晒化的冰。
+（大家都好有个性啊。……我呢？我只要负责「热闹」就好。）
+@if relics>=1 -> view_rina_d1_echo
+@goto view_rina_d1_c
+== view_rina_d1_echo
+@fx glitch
+有一瞬间，我好像在人群里看见了一根红色的线，从我的指尖垂下去。
+（……我是不是，来过这里？）
+@goto view_rina_d1_c
+== view_rina_d1_c
+散会的时候，三年级的暮云音一个人站在礼堂最后一排，安静得像一幅画。
+@choice
+* 挽着美羽的手臂，跟大家一起吵吵闹闹地回教室 -> view_rina_d1_x
+* 绕过去，跟那位总是一个人的云音学姐打个招呼 -> view_rina_d1_y
+== view_rina_d1_x
+「Riri今天也好可爱～」「下次带我们去吃可丽饼！」
+被大家簇拥着的感觉，好暖和。暖和得……让人有点害怕失去。
+@eff SAN+3
+@end
+== view_rina_d1_y
+@show yune center
+我：学姐早～！一个人吗？要不要一起走？
+云音：……早上好。你是桐谷同学吧，三年A班的太阳。
+她笑得很温柔，可是那双眼睛好像一眼就看到了我的后脑勺。
+云音：太阳也会累的哦。
+（……诶？）
+@bond yune 1
+@end
+
+== view_rina_d2
+@bg gym
+@bgm daily
+体能普测。我在立定跳远的沙坑前排队，前面的男生一跳就是两米八。
+@if check:rina_d1 -> view_rina_d2_a
+@goto view_rina_d2_b
+== view_rina_d2_a
+@show miu center
+美羽：Riri，昨天放学你去哪了？找你半天～
+我：秘——密——！
+（我去天台，一个人待了一会儿。说出来好像很丢人，可那一会儿，是我这周最安静的时间。）
+@hide miu
+@goto view_rina_d2_c
+== view_rina_d2_b
+@show miu center
+美羽：Riri你昨晚怎么不回消息呀？群里都炸了～
+我：啊、手机没电啦！抱歉抱歉！
+（手机电量满格。我只是……不敢点开。）
+@hide miu
+@eff SAN-2
+@goto view_rina_d2_c
+== view_rina_d2_c
+@sfx shatter
+头顶突然传来金属断裂的巨响。
+高处的器材架砸下来——下一秒，所有钢管都悬停在了半空。
+黑濑司一个人站在下面，张着双臂，脸色白得吓人。
+（那家伙……手在抖啊。可是没有一个人上去帮她。）
+@choice
+* 瞬移到她身边，帮她把钢管一根根挪开 -> view_rina_d2_x
+* 留在原地，帮忙疏散吓坏的一年级生 -> view_rina_d2_y
+== view_rina_d2_x
+@show tsukasa center
+我：喂，这根我来！
+我闪身过去，把最重的那根钢管瞬移到了场边。
+司：……谢了。不过下次别冲过来，很危险。
+我：哈？明明是你比较危险吧！
+她愣了一下，嘴角好像动了一下。我决定把那个算作笑。
+@bond tsukasa 2
+@eff POW+1
+@end
+== view_rina_d2_y
+我把吓哭的一年级生们一个个拉到墙边，摸摸头，塞了两颗糖。
+「谢谢学姐……」
+（被需要的感觉。……真好。真好啊。）
+@eff SAN+2
+@end
+
+== view_rina_d3
+@bg schoolyard
+@bgm tension
+模拟实战演练。我和二年级的有栖川凛分在了同一组。
+@show rin center
+凛：桐谷学姐，请你不要在我放电的时候乱瞬移。万一电到你，本小姐可不负责。
+我：凛酱好凶～
+凛：……谁准你这么叫的。
+@hide rin
+@if check:rina_d2 -> view_rina_d3_a
+@goto view_rina_d3_b
+== view_rina_d3_a
+（我一直在想昨天看到的东西。雾的背面没有城市，只有一行一行的乱码。）
+（如果外面什么都没有……那我们，到底在哪里？）
+落叶从脚边浮起来，又落下去。没有人在意。
+@goto view_rina_d3_c
+== view_rina_d3_b
+我的手臂上贴着纱布。昨天在校门撞出来的伤口，到现在还一跳一跳地疼。
+美羽没有问。谁都没有问。
+（……是我藏得太好了吧。嗯，一定是。）
+@eff SAN-2
+@goto view_rina_d3_c
+== view_rina_d3_c
+@show haruka center
+遥：桐谷同学，下午的器材清点，麻烦你负责社团大楼最里面那间。
+我：好～交给我！
+@hide haruka
+（最里面那间……为什么，后背突然一阵发凉。）
+@end
+
+== view_rina_d4
+@bg corridor
+@bgm tension
+早上刷牙的时候，镜子里的我，轮廓有一点点模糊。像手机拍糊的照片。
+我用力眨了眨眼。又变清楚了。
+@if check:rina_d3 -> view_rina_d4_a
+@goto view_rina_d4_b
+== view_rina_d4_a
+（昨天在器材室里，时间走了三遍同一分钟。我却没有告诉任何人。）
+（说了，大家会觉得我奇怪吧。……热闹的桐谷莉奈，不能是奇怪的人。）
+@goto view_rina_d4_c
+== view_rina_d4_b
+（昨天我消失了四十分钟。没有一个人发现。）
+（如果我真的不见了……大家要过多久才会发现呢？一天？一周？还是……）
+@fx glitch
+@eff SAN-3
+@goto view_rina_d4_c
+== view_rina_d4_c
+@show chiyo center
+走廊上，一年级的白羽千夜蹲在墙边，在笔记本上飞快地写着什么。
+千夜：……学姐，你今天下午三点以后，最好待在有人的地方。
+我：诶？为什么？
+千夜：概率。……只是概率而已。
+@hide chiyo
+@choice
+* 「那我下午就黏着美羽她们好了！」——笑着带过 -> view_rina_d4_x
+* 认真地问她：「你算到了什么？」 -> view_rina_d4_y
+== view_rina_d4_x
+我笑着摆摆手走开了。身后，千夜好像轻轻叹了口气。
+@eff SAN+2
+@end
+== view_rina_d4_y
+@show chiyo center
+千夜盯着我看了好一会儿，好像在重新计算我这个人。
+千夜：今天会停电。停电时，你的「存在概率」会下降。……我也不知道这是什么意思。
+千夜：但如果你记得很多人的名字，概率会高一点。这是我唯一算得出来的。
+我：……谢谢你，千夜酱。
+@bond chiyo 2
+@eff INT+1
+@end
+
+== view_rina_d5
+@bg classroom_day
+@bgm mystery
+午餐的炸鸡块没有味道。我嚼了很久，像在嚼一块橡皮。
+@if check:rina_d4 -> view_rina_d5_a
+@goto view_rina_d5_b
+== view_rina_d5_a
+@if flag:st_names -> view_rina_d5_names
+我摸了摸自己的手。实实在在的，有温度。昨晚在黑暗里，我用意志把自己钉回了这个世界。
+@goto view_rina_d5_c
+== view_rina_d5_names
+昨晚在黑暗里，我一个一个念出了朋友们的名字。美羽、小春、班长、隔壁班的那个谁……
+念到后来我发现，我能叫出名字的人，比我以为的多得多。
+（原来我在这里，留下过这么多痕迹啊。）
+@eff SAN+3
+@goto view_rina_d5_c
+== view_rina_d5_b
+右手的两根手指还是半透明的。我把手藏在桌子下面，用左手笨拙地拿着筷子。
+（今天，一定要撑住。今天……好像是很重要的一天。）
+@goto view_rina_d5_c
+== view_rina_d5_c
+@if bonds>=1 -> view_rina_d5_friend
+@goto view_rina_d5_alone
+== view_rina_d5_friend
+有人在我对面坐了下来，把自己那份布丁推到我面前。
+「你今天，脸色很差。」
+我抬起头。是这几天在黄昏里，一次又一次碰到的那张脸。
+（……原来，我也有会被这样看着的时候。）
+@eff SAN+4
+@end
+== view_rina_d5_alone
+美羽她们坐在隔壁桌，聊着我插不进去的话题。
+我盯着餐盘，忽然想不起来上一次有人主动找我说话，是什么时候。
+@end
+
+== view_rina_d6
+@bg classroom_day
+@bgm mystery
+醒来的时候，天花板上浮着一层淡淡的网格。每一格都标着坐标。
+（我还活着。……我真的还活着。）
+@if dead_n>=1 -> view_rina_d6_loss
+@goto view_rina_d6_b
+== view_rina_d6_loss
+教室里有人在小声说，昨晚又有人「不见了」。
+我攥紧了拳头。如果我当时能瞬移过去……如果我早一点知道……
+（不。现在不是哭的时候。还活着的人，还有事要做。）
+@eff SAN-3
+@goto view_rina_d6_b
+== view_rina_d6_b
+@show miu center
+美羽：Riri！昨天你突然跑去校门那边，我们喊了你好久……你吓死我们了！
+她一把抱住我，眼泪鼻涕全蹭在我的制服上。
+我：……对不起。还有，谢谢你喊我。
+美羽：笨蛋！朋友当然要喊啊！
+@hide miu
+（以前我总觉得，自己必须有用，才能留在别人身边。）
+（可是美羽喊我的时候，我什么用都没有。我只是要逃走而已。）
+@eff SAN+4
+@end
+
+== view_rina_d7
+@bg festival
+@bgm festival
+@show miu left
+@show koharu right
+美羽：欢迎回来，主人～！……Riri，这句你来说最可爱！
+小春：莉奈学姐的女仆装好好看！
+我转了一圈，裙摆飞起来。所有人都在鼓掌。
+@if skill:cafe -> view_rina_d7_skill
+@goto view_rina_d7_b
+== view_rina_d7_skill
+（这几天排练的每一个笑话、每一次端错盘子，大家都记得。）
+（我不是「好用的人」。我是一起筹备了七天的同伴。）
+@goto view_rina_d7_b
+== view_rina_d7_b
+@hide all
+我看着窗外。天空的颜色比平时淡了一点，像洗过太多次的T恤。
+（我知道。我已经知道了。）
+（但是在那之前——至少让我，好好地开一次店吧。）
+@end
