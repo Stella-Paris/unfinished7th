@@ -17,7 +17,7 @@
 | bgm/calm.ogg | Snowfall | Kistol | https://opengameart.org/content/snowfall |
 | bgm/sad.ogg | Sadness | Kistol | https://opengameart.org/content/sadness |
 | bgm/tension.ogg | Insistent: background loop | yd | https://opengameart.org/content/insistent-background-loop |
-| bgm/crisis.ogg | Countdown to Myocardial Infarction | josepharaoh99 | https://opengameart.org/content/countdown-to-myocardial-infarction |
+| bgm/crisis.ogg | Menacing Otherworld（截取前 228 秒并做响度归一） | ruskerdax | https://opengameart.org/content/menacing-otherworld |
 | bgm/mystery.ogg | Hallway | thenewkgb | https://opengameart.org/content/hallway |
 | bgm/void.ogg | Background space track | yd | https://opengameart.org/content/background-space-track |
 | bgm/festival.ogg | Flowerbed Fields [Loop] | Zane Little Music | https://opengameart.org/content/flowerbed-fields-loop |

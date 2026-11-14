@@ -78,7 +78,7 @@
         flags: {}, items: [], injury: 0, rehearse: {}, todayDone: {}, skills: [], npc,
         seenClues: {}, delivered: {}, resolved: {}, visit: null, queue: [], script: null, ended: null, pendingEnding: null,
         log: [], dayLog: [], checks: {}, entered: false,
-        bond: {}, dayBond: {}, bondEv: {}, encN: {}, growth: {}, cevDay: {}, cevSeen: {}, chain: [],
+        bond: {}, dayBond: {}, bondEv: {}, encN: {}, growth: {}, cevDay: {}, cevSeen: {}, chain: [], locStoryRun: {},
       };
       // 羁绊残响：她们不记得你，但灵魂记得——按历史最高羁绊继承一部分
       const BB = this.B.bond, bm = this.meta.bondMax || (this.meta.bondMax = {});
@@ -267,7 +267,7 @@
         if (variants.length) res.scene = n <= variants.length ? variants[n - 1] : variants[variants.length > 2 ? 1 + Math.floor(this.rand() * (variants.length - 2)) : variants.length - 1];
       } else if (kind === "explore") {
         const loc = C.explore.locations[id];
-        if (loc.rest) { res.fx = this.applyFx({ SAN: B.rest_san }, "休息"); res.scene = "a_dorm1"; }
+        if (loc.rest) { res.fx = this.applyFx({ SAN: B.rest_san }, "休息"); res.scene = this.pickLocStory(id) || "a_dorm1"; }
         else {
           // 分区：跨周目累计，每次探索开启下一区；全部开启后随机
           const m = this.meta; m.areaVisits = m.areaVisits || {};
@@ -288,6 +288,9 @@
             res.insight = this.grantInsight(clue.id, clue.insight);
             res.scene = clue.id; res.clue = true;
             if (this.D.scenes[`${clue.id}_${r.route}`]) r.chain.push(`${clue.id}_${r.route}`);
+          } else if ((res.story = this.pickLocStory(id))) {
+            r.visit.kind = "story";
+            res.scene = res.story;
           } else if (loc.anomaly && !r.resolved[id] && this.rand() < T.anomaly_chance) {
             r.visit.kind = "anomaly";
             res.scene = loc.anomaly[Math.floor(this.rand() * loc.anomaly.length)];
@@ -397,6 +400,16 @@
           this.emit({ type: "awaken", lv, stat: k, name: (this.char(r.route).awaken || [])[i] });
         }
       });
+    }
+    // 场所物语：跨周目推进的地点剧情 story_<地点>_<n>。第 n 章从第 n 次轮回起开放，每个周目每个地点最多推进一章。
+    pickLocStory(id) {
+      const r = this.run, m = this.meta;
+      m.locStory = m.locStory || {}; r.locStoryRun = r.locStoryRun || {};
+      if (r.locStoryRun[id]) return null;
+      const n = (m.locStory[id] || 0) + 1, s = `story_${id}_${n}`;
+      if (!this.D.scenes[s] || r.loop < n) return null;
+      m.locStory[id] = n; r.locStoryRun[id] = 1;
+      return s;
     }
     pickClassEvent(id) {
       const r = this.run, ch = this.B.class_event;
@@ -678,7 +691,7 @@
     load(s) {
       const o = JSON.parse(s); this.meta = Object.assign(newMeta(), o.meta); this.run = o.run;
       if (this.run) {   // 旧存档迁移：补齐羁绊 / 成长相关字段
-        const d = { bond: {}, dayBond: {}, bondEv: {}, encN: {}, growth: {}, cevDay: {}, cevSeen: {}, chain: [] };
+        const d = { bond: {}, dayBond: {}, bondEv: {}, encN: {}, growth: {}, cevDay: {}, cevSeen: {}, chain: [], locStoryRun: {} };
         for (const k in d) if (this.run[k] == null) this.run[k] = d[k];
       }
     }

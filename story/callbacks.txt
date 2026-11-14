@@ -4,7 +4,9 @@
 @if bonds>=1 -> rina_d5_ok_bond
 @goto rina_d5_ok_main
 == rina_d5_ok_bond
-风暴的缝隙里，我看见了这几天黄昏一直陪在我身边的那个人。她在喊我，喊得比谁都大声。
+风暴的缝隙里，我先看见的，是一个人。
+是这几天的黄昏里，一直陪在我身边的那个人。她挤在人群的最前面，两只手死死地抓着铁门的栏杆，在喊我的名字。
+喊得比谁都大声。嗓子都破了。
 @eff SAN+3
 @goto rina_d5_ok_main
 
@@ -12,20 +14,26 @@
 @if growth:2 -> rina_d7_aw
 @goto rina_d7_st
 == rina_d7_aw
-（无限门扉。觉醒的那一天我就在想，这扇门，要留给最重要的人。）
+觉醒的那一天，我打开了一扇门，又把它关上了。
+那时候我不知道，它是留给谁的。
+我站在广播室的门前，把手伸进口袋里，摸到了一点暖暖的、金色的东西。
 @goto rina_d7_st
 == rina_d7_st
 @if flag:st_names -> rina_d7_st_y
 @goto rina_d7_main
 == rina_d7_st_y
-我在心里，最后一次把大家的名字念了一遍。美羽、小春、班长……一个都没有忘。
+我在心里，最后一次，把大家的名字念了一遍。
+美羽、小春、班长、隔壁班借我橡皮的那个女生、社团的学妹、食堂打饭的阿姨、门卫室的老伯……
+七十三个。一个都没有忘。
 @goto rina_d7_main
 
 == tsukasa_d5_ok
 @if bonds>=1 -> tsukasa_d5_ok_bond
 @goto tsukasa_d5_ok_main
 == tsukasa_d5_ok_bond
-体育馆的门被撞开之前，我先听见了一个熟悉的脚步声——这几天，总在黄昏陪着我的那个人。
+体育馆的门被撞开之前，我先听见了一个脚步声。
+很熟悉的脚步声。这几天的黄昏，总在我身边响起的那一个。不快不慢，走到我旁边，就会停下来，然后递过来一瓶水。
+这一次，它在跑。
 @eff SAN+3
 @goto tsukasa_d5_ok_main
 
@@ -33,20 +41,25 @@
 @if growth:2 -> tsukasa_d7_aw
 @goto tsukasa_d7_st
 == tsukasa_d7_aw
-（斥力天幕。那天在操场上觉醒的力量，原来是一把伞。今天，它要撑住整栋楼。）
+下雨的那个黄昏，我在操场上撑开过一把伞。伞下面，站了很多人。
+今天，它要撑住一整栋楼。
 @goto tsukasa_d7_st
 == tsukasa_d7_st
 @if flag:st_breathe -> tsukasa_d7_st_y
 @goto tsukasa_d7_main
 == tsukasa_d7_st_y
-我闭上眼，像停电那天一样，顺着天空落下来的节奏呼吸。不对抗，只是承接。
+我闭上了眼睛。像停电的那一天一样，去听天上落下来的那股重量的节奏。
+三拍。停。
+我吸了一口气。不去推，也不去挡。
 @goto tsukasa_d7_main
 
 == rin_d5_ok
 @if bonds>=1 -> rin_d5_ok_bond
 @goto rin_d5_ok_main
 == rin_d5_ok_bond
-电弧的轰鸣里，我想起了这几天和我约定过的那个人。……本小姐，还有约没赴。
+电弧的轰鸣里，我想起了这几天，和我约定过的那个人。
+她说，早点回来，乐队还等着你。
+……本小姐，还有约没赴。
 @eff SAN+3
 @goto rin_d5_ok_main
 
@@ -54,20 +67,24 @@
 @if growth:2 -> rin_d7_aw
 @goto rin_d7_st
 == rin_d7_aw
-（万伏独奏。雷霆不是用来控制的，是用来对话的。今天，我们一起唱最后一曲。）
+那天，雷落进我的手心里，绕着我的手腕转了一圈。然后飞回了云里。
+今天，我要请它下来，陪我弹最后一曲。
 @goto rin_d7_st
 == rin_d7_st
 @if flag:rin_replied -> rin_d7_st_y
 @goto rin_d7_main
 == rin_d7_st_y
-手机里那条「我会自己决定」，父亲始终没有回。没关系。我已经决定了。
+手机里，那条「我会自己决定」，父亲始终没有回。
+我没有再去看它。
 @goto rin_d7_main
 
 == saki_d5_ok
 @if bonds>=1 -> saki_d5_ok_bond
 @goto saki_d5_ok_main
 == saki_d5_ok_bond
-晶体爬上脖子的时候，我想起了这几天陪着我的那个人。她说过：咲，不用一直有用也没关系。
+晶体爬上脖子的时候，我想起了这几天，一直陪着我的那个人。
+她说过一句话。在温室的台阶上，在我修完第二十三样东西的那个黄昏。
+「咲，不用一直有用也没关系。」
 @eff SAN+3
 @goto saki_d5_ok_main
 
@@ -75,20 +92,24 @@
 @if growth:2 -> saki_d7_aw
 @goto saki_d7_st
 == saki_d7_aw
-（创生之手。我不只会修补。今天，我要「造」一条路出来。）
+温室角落里，那株从我的指缝里长出来的嫩芽，今天早上，长出了第三片叶子。
+我把手按在楼梯上的时候，想起了它。
 @goto saki_d7_st
 == saki_d7_st
 @if flag:st_accept -> saki_d7_st_y
 @goto saki_d7_main
 == saki_d7_st_y
-书包里的八音盒很安静。奶奶，就算它不唱歌了，我也一直记得那首歌哦。
+书包里的八音盒，很安静。
+我在心里，把奶奶的那首歌，从头到尾哼了一遍。走调的地方，就「啦啦啦」地哼过去。
 @goto saki_d7_main
 
 == yune_d5_ok
 @if bonds>=1 -> yune_d5_ok_bond
 @goto yune_d5_ok_main
 == yune_d5_ok_bond
-黑潮里，有一只手和别的都不一样。它不是在拖我下去，是在拉我上来。是这几天，一直坐在我对面的那个人。
+黑潮里，有一只手，和别的都不一样。
+它没有在往下拖我。它在往上拉。
+很用力，很笨拙，指甲都掐进了我的手腕里。是这几天，一直坐在我对面、心声吵得要命的那个人。
 @eff SAN+3
 @goto yune_d5_ok_main
 
@@ -96,20 +117,25 @@
 @if growth:2 -> yune_d7_aw
 @goto yune_d7_st
 == yune_d7_aw
-（心之信标。那天我第一次把自己的心声发出去，有那么多人回应了我。）
+那天，我在心里问了一句「有人在吗」。
+回应像一群小鸟，叽叽喳喳地涌了过来。
+今天，我要问一个更大的问题。
 @goto yune_d7_st
 == yune_d7_st
 @if flag:st_heard -> yune_d7_st_y
 @goto yune_d7_main
 == yune_d7_st_y
-日记本的第一页写着：「我也很孤独。」现在我想在下面再写一行：「但我不再是一个人了。」
+日记本的第一页，写着「我也很孤独」。
+今天早上，我在那一行的下面，又写了一行。字还是很歪。
+「今天，有人陪我吃了午饭。」
 @goto yune_d7_main
 
 == chiyo_d5_ok
 @if bonds>=1 -> chiyo_d5_ok_bond
 @goto chiyo_d5_ok_main
 == chiyo_d5_ok_bond
-在方程的最后一行，我写下了一个名字。这几天，一直在我身边、让我算不清楚的那个人。
+在方程的最后一行，写下那个 X 之前，我先写下了一个名字。
+这几天，一直在我身边、让我怎么都算不清楚的那个人。
 @eff SAN+3
 @goto chiyo_d5_ok_main
 
@@ -117,11 +143,13 @@
 @if growth:2 -> chiyo_d7_aw
 @goto chiyo_d7_st
 == chiyo_d7_aw
-（奇迹演算。觉醒那天，硬币落地是正面。今天，我把「相信」写进最后一个方程。）
+觉醒的那天，我抛了十次硬币。十次都是正面。
+口袋里，那枚一百日元的硬币，还在。
 @goto chiyo_d7_st
 == chiyo_d7_st
 @if flag:st_unknown -> chiyo_d7_st_y
 @goto chiyo_d7_main
 == chiyo_d7_st_y
-停电那天，我用手摸着墙往前走。今天也一样——不靠公式，靠我自己的眼睛。
+停电的那一天，我用手摸着墙，一步一步地往前走。四十七步。
+今天也一样。我把笔记本合上了。
 @goto chiyo_d7_main

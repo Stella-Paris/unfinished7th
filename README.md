@@ -115,3 +115,14 @@ node dev/build.js && tools/tts/.venv/bin/python tools/tts/gen_voice.py
 ```
 
 Krea 2 服务新增了 `/img2img` 接口（参考图 + 提示词，SDEdit 方式），原 `/generate` 保持不变；原文件备份为 `server.py.bak`。
+
+## 剧情扩充（v3）
+
+- **前情提要**：第一次点「开始」时，先在周目之外播放 `prologue`（`story/common.txt`），然后进入选人界面；观测空间底部的「前情提要」按钮可随时重看。选人卡片不再显示性格介绍。
+- **叙事约束**：主角只知道「七天在无限循环」。循环与肉体崩坏的原因只在第七周目（`story/hero.txt`）与 TE / NE 中逐步揭开；六条角色线和线索只呈现「看见了什么」，不下结论。
+- **恐怖氛围**：每日宏观事件（`macro_d1~7`）只保留一件诡异的事并写细；日常小事件与课堂事件大多是平静的校园生活。
+- **多周目变化**：
+  - `loop_start` 按已观测的轮回次数（1、2、3、4、5、6、7+）播放不同的观测空间开场。
+  - 宏观事件在第 3 / 5 次轮回后追加 `_echo` 段落；排练 `act_<项目>_1~3` 从第 3 次轮回起换成 `_l` 版本。
+  - **场所物语**（`story/locstory.txt`，`engine.pickLocStory`）：每个黄昏地点（含宿舍）各有一条 5 章的连续剧情 `story_<地点>_<n>`，第 n 章从第 n 次轮回起开放，每周目每个地点最多推进一章，进度跨周目保存在 `meta.locStory`。优先级：关键线索 ＞ 场所物语 ＞ 异常 ＞ 偶遇 ＞ 日常。
+- **音乐**：`bgm/crisis.ogg`（Day4 停电等危机场景）换成更压抑的 *Menacing Otherworld*（ruskerdax，CC0），见 `assets/CREDITS.md`。

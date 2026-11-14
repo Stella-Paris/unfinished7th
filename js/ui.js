@@ -69,7 +69,7 @@
   $("#tap-start").addEventListener("click", () => { $("#tap-start").remove(); Audio7.unlock(); Audio7.bgm("title"); sfx("confirm"); });
   $(".title-menu").addEventListener("click", (e) => {
     const a = e.target.dataset.act; if (!a) return; sfx("click");
-    if (a === "new") enterHub();
+    if (a === "new") { if (!G.meta.seen.prologue && !G.run) playIntro("prologue", enterHub); else enterHub(); }
     if (a === "continue" && G.run) resumeRun();
     if (a === "settings") openOverlay("settings");
     if (a === "gallery") openGallery();
@@ -105,7 +105,7 @@
         ${relic ? `<div class="relic-ic" style="background-image:url(${itemIcon(c.relic)})"></div>` : ""}
         ${cleared ? `<div class="badge">已救赎 ×${cleared}</div>` : ""}
         ${echoHearts(g)}
-        <div class="info"><b>${c.full}</b><small>${c.grade} · ${c.ability}</small><p>${c.tag}</p></div></div>`;
+        <div class="info"><b>${c.full}</b><small>${c.grade} · ${c.ability}</small></div></div>`;
     });
     const un = G.loop7Unlocked(), h = charOf("hero");
     cards.push(`<div class="gcard final ${un ? "" : "locked"}" data-g="hero">
@@ -126,6 +126,33 @@
     sfx("confirm"); startRun(card.dataset.g);
   });
   $(".hub-foot [data-act=title]").addEventListener("click", () => { sfx("click"); enterTitle(); });
+  $(".hub-foot [data-act=prologue]").addEventListener("click", () => { sfx("click"); playIntro("prologue", enterHub); });
+
+  /* ---------------- 前情提要（周目之外播放的剧本：只有文字与演出，没有判定） ---------------- */
+  function playIntro(id, done) {
+    const sc = D.scenes[id]; if (!sc) return done();
+    ui.intro = { id, sc, ip: 0, done, seen: !!G.meta.seen[id] };
+    ui.pres = { bg: null, bgm: null, cg: null, sprites: {} };
+    show("scr-game"); $("#scr-game").classList.add("intro");
+    $("#sprites").innerHTML = ""; $$(".bg").forEach((b) => b.classList.remove("on")); setCg("off");
+    hideAllPanels(); hideDialog();
+    introPump();
+  }
+  function introPump() {
+    const it = ui.intro;
+    while (it.ip < it.sc.length) {
+      const c = it.sc[it.ip++];
+      if (c.t === "line") {
+        const who = c.who === "me" ? "hero" : c.who;
+        return renderLine({ type: "line", who, text: c.text.replace(/\{me(_full)?\}/g, ""), inner: !!c.inner, voice: null, read: it.seen });
+      }
+      if (["bg", "bgm", "sfx", "show", "hide", "cg", "fx"].includes(c.t)) runCmd(c);
+      if (c.t === "end") break;
+    }
+    G.meta.seen[it.id] = 1; ui.intro = null; hideDialog();
+    $("#scr-game").classList.remove("intro"); setCg("off"); hideSprite("all");
+    save(); it.done();
+  }
 
   /* ---------------- 周目 ---------------- */
   function startRun(route) {
@@ -259,6 +286,7 @@
     if (ui.waiting !== "line") return;
     if (ui.typing) { ui.typing = false; return; }
     ui.waiting = null; clearTimeout(autoTimer);
+    if (ui.intro) return introPump();
     pump();
   }
   function hideDialog() { $("#dialog").classList.add("hidden"); }

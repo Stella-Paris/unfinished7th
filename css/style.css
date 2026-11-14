@@ -299,3 +299,7 @@ button { font: inherit; color: inherit; cursor: pointer; border: none; backgroun
 .pcard .regs i { width: 20px; height: 20px; border-radius: 50%; background-size: 220%; background-position: 50% 4%; border: 1px solid rgba(255, 143, 176, .6); }
 .chg.bond { color: #ffd0de; border-color: #ff8fb0; }
 .gcard .echo { position: absolute; top: 44px; right: 12px; z-index: 2; font-size: 13px; color: #ff8fb0; letter-spacing: .15em; text-shadow: 0 0 6px rgba(255, 143, 176, .6); }
+
+/* 前情提要：周目之外播放，隐藏周目 HUD */
+#scr-game.intro .hud-stats, #scr-game.intro .day-badge, #scr-game.intro .timeline,
+#scr-game.intro [data-act=hub], #scr-game.intro [data-act=voice] { display: none !important; }
